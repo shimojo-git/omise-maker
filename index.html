@@ -7,39 +7,55 @@
 <title>お店まるごとメーカー</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f5f6f8;color:#252525;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
-header{background:#263c35;color:white;padding:22px 18px}
-header h1{font-size:23px;margin:0 0 6px}
-header p{margin:0;font-size:13px;color:#dce8df}
-main{max-width:1000px;margin:auto;padding:18px}
-.panel{background:white;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 2px 12px #0000000a}
-h2{font-size:19px;margin:0 0 16px}
-label{display:block;font-size:14px;font-weight:600;margin:13px 0 6px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ccd2d0;border-radius:8px;font-size:16px;background:white}
+body{margin:0;background:#f4f3ef;color:#292d29;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
+header{padding:22px 18px;background:#243d32;color:white}
+header h1{font-size:23px;margin:0}
+header p{font-size:13px;margin:6px 0 0}
+main{max-width:900px;margin:auto;padding:16px}
+.panel{background:white;border-radius:16px;padding:18px;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:bold;margin:13px 0 6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #d5d8d2;border-radius:9px;font-size:16px;background:white}
 textarea{min-height:75px}
-button{border:0;border-radius:9px;padding:13px 16px;background:#28694d;color:white;font-size:15px;font-weight:700;width:100%;margin-top:14px}
-.preview{background:white;border-radius:12px;overflow:hidden;border:1px solid #ddd}
-.hero{padding:35px 20px;text-align:center;background:#e8f0e8;color:#263c35}
-.hero h3{font-size:30px;margin:8px 0}
-.hero p{line-height:1.8}
-.shopbody{padding:20px}
-.menuitem{padding:12px 0;border-bottom:1px solid #eee}
+button{padding:12px;border:0;border-radius:9px;background:#345b45;color:white;font-size:15px;font-weight:bold;cursor:pointer}
+.action{width:100%;margin-top:14px}
+.designs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.designs button{background:#e9ece7;color:#333}
+.designs button.active{background:#345b45;color:white}
+.preview{border:1px solid #ddd;border-radius:14px;overflow:hidden;background:white}
+.hero{text-align:center;padding:48px 18px;background:#e8eee4;color:#294534}
+.eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.hero h3{font-family:Georgia,serif;font-size:32px;margin:15px 0}
+.hero p{line-height:1.9}
+.shopbody{padding:22px}
+.shopbody h4{font-size:18px;margin:24px 0 10px}
+.menuitem{padding:12px 0;border-bottom:1px solid #eee;white-space:pre-wrap}
 .small{font-size:12px;color:#777}
+.preview.dark .hero{background:#292724;color:#f6ead6}
+.preview.dark{background:#f9f5ee}
+.preview.pink .hero{background:#f9e8ed;color:#80485b}
+.preview.pink{background:#fffaf9}
+.preview.modern .hero{background:#e7f2f7;color:#204c63}
+.preview.modern{background:#fff}
+.preview.dark .hero h3{font-family:Georgia,serif;letter-spacing:2px}
+.preview.modern .hero{text-align:left}
+.preview.modern .hero h3{font-family:Arial,sans-serif}
+@media(min-width:650px){main{padding:24px}.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
 </style>
 </head>
 <body>
 <header>
 <h1>お店まるごとメーカー</h1>
-<p>お店の情報からホームページを自動生成</p>
+<p>お店の魅力を、ホームページに。</p>
 </header>
 <main>
 <section class="panel">
-<h2>① お店の情報を入力</h2>
+<h2>① お店の情報</h2>
 <label for="shop">お店の名前</label>
-<input id="shop" value="喫茶 こもれび" placeholder="例：カフェこもれび">
+<input id="shop" value="喫茶 こもれび">
 <label for="category">業種</label>
 <select id="category">
-<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>その他</option>
+<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>雑貨店</option><option>その他</option>
 </select>
 <label for="desc">お店の紹介</label>
 <textarea id="desc">ゆったりとした時間を過ごせる、街角の小さなカフェです。</textarea>
@@ -48,34 +64,34 @@ button{border:0;border-radius:9px;padding:13px 16px;background:#28694d;color:whi
 <label for="holiday">定休日</label>
 <input id="holiday" value="毎週水曜日">
 <label for="menu">メニュー（1行に1品）</label>
-<textarea id="menu">ブレンドコーヒー 500円
-季節のケーキ 600円
-本日のランチ 1,200円</textarea>
-<label for="style">デザインの雰囲気</label>
-<select id="style">
-<option value="green">自然・ナチュラル</option>
-<option value="dark">高級・シック</option>
-<option value="pink">かわいい・明るい</option>
-<option value="blue">爽やか・清潔感</option>
-</select>
-<button onclick="generate()">② ホームページを生成・更新</button>
+<textarea id="menu">ブレンドコーヒー　500円
+季節のケーキ　600円
+本日のランチ　1,200円</textarea>
+<button class="action" onclick="generate()">入力内容をプレビューに反映</button>
+</section>
+<section class="panel">
+<h2>② デザインを選ぶ</h2>
+<div class="designs">
+<button class="active" onclick="setDesign('natural',this)">🌿 ナチュラル</button>
+<button onclick="setDesign('dark',this)">🖤 高級・シック</button>
+<button onclick="setDesign('pink',this)">🌸 かわいい</button>
+<button onclick="setDesign('modern',this)">🩵 モダン</button>
+</div>
 </section>
 <section class="panel">
 <h2>③ ホームページのプレビュー</h2>
-<p class="small">入力内容を変更して「生成・更新」を押すと、表示が変わります。</p>
-<div class="preview">
-<div class="hero" id="hero">
-<p id="categoryView">カフェ</p>
+<div id="preview" class="preview">
+<div class="hero">
+<div class="eyebrow" id="categoryView">CAFE</div>
 <h3 id="shopView">喫茶 こもれび</h3>
 <p id="descView">ゆったりとした時間を過ごせる、街角の小さなカフェです。</p>
 </div>
 <div class="shopbody">
-<h3>営業時間・ご案内</h3>
 <p>営業時間：<strong id="hoursView"></strong></p>
 <p>定休日：<strong id="holidayView"></strong></p>
-<h3>メニュー</h3>
+<h4>MENU</h4>
 <div id="menuView"></div>
-<p class="small">※これはプレビューです。まだインターネット上への公開は行っていません。</p>
+<p class="small">※現在はデザイン確認用のプレビューです。</p>
 </div>
 </div>
 </section>
@@ -96,16 +112,11 @@ item.className='menuitem';
 item.textContent=line;
 menu.appendChild(item);
 });
-const themes={
-green:['#e8f0e8','#263c35'],
-dark:['#292929','#ffffff'],
-pink:['#fff0f4','#813e59'],
-blue:['#eaf4fc','#204b70']
-};
-const colors=themes[get('style')];
-const hero=document.getElementById('hero');
-hero.style.background=colors[0];
-hero.style.color=colors[1];
+}
+function setDesign(style,button){
+document.getElementById('preview').className='preview '+(style==='natural'?'':style);
+document.querySelectorAll('.designs button').forEach(b=>b.classList.remove('active'));
+button.classList.add('active');
 }
 generate();
 </script>
