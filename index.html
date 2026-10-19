@@ -7,116 +7,172 @@
 <title>お店まるごとメーカー</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#f4f3ef;color:#292d29;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
-header{padding:22px 18px;background:#243d32;color:white}
-header h1{font-size:23px;margin:0}
-header p{font-size:13px;margin:6px 0 0}
-main{max-width:900px;margin:auto;padding:16px}
+:root{--ink:#293b30;--paper:#f8f6f0;--accent:#71816a;--line:#e5e1d8}
+body{margin:0;background:#f0eee8;color:#292c27;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
+header{background:#263a30;color:#fff;padding:20px 18px}
+header h1{margin:0;font-size:21px;letter-spacing:.04em}
+header p{margin:5px 0 0;font-size:12px;color:#d6dfd6}
+main{max-width:1050px;margin:auto;padding:16px}
 .panel{background:white;border-radius:16px;padding:18px;margin-bottom:18px}
-h2{font-size:19px;margin:0 0 14px}
-label{display:block;font-size:14px;font-weight:bold;margin:13px 0 6px}
-input,textarea,select{width:100%;padding:12px;border:1px solid #d5d8d2;border-radius:9px;font-size:16px;background:white}
-textarea{min-height:75px}
-button{padding:12px;border:0;border-radius:9px;background:#345b45;color:white;font-size:15px;font-weight:bold;cursor:pointer}
-.action{width:100%;margin-top:14px}
+h2{font-size:18px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #d8d8d0;border-radius:8px;font:inherit;font-size:16px;background:#fff}
+textarea{min-height:72px}
+button{font:inherit;cursor:pointer}
+.action{width:100%;padding:13px;border:0;border-radius:8px;background:#344e3c;color:white;font-weight:700;margin-top:14px}
 .designs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.designs button{background:#e9ece7;color:#333}
-.designs button.active{background:#345b45;color:white}
-.preview{border:1px solid #ddd;border-radius:14px;overflow:hidden;background:white}
-.hero{text-align:center;padding:48px 18px;background:#e8eee4;color:#294534}
-.eyebrow{font-size:12px;letter-spacing:3px;text-transform:uppercase}
-.hero h3{font-family:Georgia,serif;font-size:32px;margin:15px 0}
-.hero p{line-height:1.9}
-.shopbody{padding:22px}
-.shopbody h4{font-size:18px;margin:24px 0 10px}
-.menuitem{padding:12px 0;border-bottom:1px solid #eee;white-space:pre-wrap}
-.small{font-size:12px;color:#777}
-.preview.dark .hero{background:#292724;color:#f6ead6}
-.preview.dark{background:#f9f5ee}
-.preview.pink .hero{background:#f9e8ed;color:#80485b}
-.preview.pink{background:#fffaf9}
-.preview.modern .hero{background:#e7f2f7;color:#204c63}
-.preview.modern{background:#fff}
-.preview.dark .hero h3{font-family:Georgia,serif;letter-spacing:2px}
-.preview.modern .hero{text-align:left}
-.preview.modern .hero h3{font-family:Arial,sans-serif}
-@media(min-width:650px){main{padding:24px}.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
+.designs button{border:1px solid #ddd;background:#faf9f5;padding:12px 6px;border-radius:8px;font-size:13px}
+.designs button.active{background:#344e3c;color:white;border-color:#344e3c}
+.site{--hero:#e8e9df;--ink:#293b30;--accent:#71816a;background:white;border:1px solid #e2e0d8;border-radius:12px;overflow:hidden;color:var(--ink)}
+.site.dark{--hero:#292724;--ink:#f7f0e5;--accent:#b9a17a;background:#f8f4ed;color:#292724}
+.site.pink{--hero:#f7e8e8;--ink:#744b53;--accent:#b77b86}
+.site.blue{--hero:#e6eff3;--ink:#284b5c;--accent:#638da0}
+.site-nav{padding:17px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;letter-spacing:.08em}
+.site-nav strong{font-family:Georgia,serif;font-size:17px;letter-spacing:0}
+.site-nav span{font-size:10px}
+.hero{background:var(--hero);padding:36px 20px 30px;text-align:center}
+.kicker{font-size:10px;letter-spacing:.25em;text-transform:uppercase}
+.hero h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(31px,7vw,48px);line-height:1.18;margin:17px auto;max-width:600px;overflow-wrap:anywhere}
+.hero-desc{font-size:13px;line-height:2;max-width:460px;margin:0 auto 22px}
+.hero-link{display:inline-block;border:1px solid var(--ink);padding:11px 20px;color:var(--ink);font-size:11px;letter-spacing:.08em}
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:white;padding:5px}
+.photo{min-height:120px;aspect-ratio:1.15;display:flex;align-items:end;padding:12px;background:linear-gradient(145deg,#d8c9b1,#f0e8da 48%,#a5a88b);color:#fff;font-size:10px;letter-spacing:.12em;text-shadow:0 1px 3px #555}
+.photo.second{background:linear-gradient(145deg,#8c9b7b,#d9c8a6 50%,#765a42)}
+.section{padding:28px 20px}
+.section-head{margin-bottom:17px}
+.section-head small{letter-spacing:.2em;color:var(--accent);font-size:10px}
+.section-head h4{font:normal 28px Georgia,serif;margin:6px 0 0}
+.intro{font-size:13px;line-height:2;color:#666}
+.cards{display:grid;grid-template-columns:1fr;gap:10px}
+.menu-card{border:1px solid var(--line);padding:15px;border-radius:8px;background:#fff}
+.menu-card strong{font-size:13px;font-weight:600}
+.menu-card span{float:right;font-family:Georgia,serif;font-size:14px}
+.menu-card p{font-size:11px;color:#777;line-height:1.7;margin:8px 0 0}
+.info{background:#f8f6f0;padding:23px 20px}
+.info h4{font:normal 25px Georgia,serif;margin:0 0 15px}
+.info-row{display:flex;gap:15px;padding:11px 0;border-bottom:1px solid #e2ded4;font-size:12px;line-height:1.7}
+.info-row b{min-width:82px;font-size:11px}
+.site-footer{text-align:center;padding:23px 15px;background:var(--hero);font-size:11px;line-height:2}
+.note{font-size:11px;color:#777;line-height:1.8}
+@media(min-width:700px){
+main{padding:25px}
+.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+.sticky{position:sticky;top:10px}
+.cards{grid-template-columns:1fr 1fr}
+.photo{aspect-ratio:1.4}
+.hero{padding:55px 30px 42px}
+.section{padding:35px 28px}
+}
 </style>
 </head>
 <body>
 <header>
 <h1>お店まるごとメーカー</h1>
-<p>お店の魅力を、ホームページに。</p>
+<p>お店の魅力を、ひとつの美しいホームページに。</p>
 </header>
 <main>
+<div class="layout">
+<div>
 <section class="panel">
 <h2>① お店の情報</h2>
 <label for="shop">お店の名前</label>
 <input id="shop" value="喫茶 こもれび">
 <label for="category">業種</label>
 <select id="category">
-<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>雑貨店</option><option>その他</option>
+<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>雑貨店</option><option>パン屋</option>
 </select>
 <label for="desc">お店の紹介</label>
-<textarea id="desc">ゆったりとした時間を過ごせる、街角の小さなカフェです。</textarea>
+<textarea id="desc">木漏れ日のようなやさしい時間が流れる、小さな街角のカフェです。</textarea>
 <label for="hours">営業時間</label>
 <input id="hours" value="10:00〜18:00">
 <label for="holiday">定休日</label>
 <input id="holiday" value="毎週水曜日">
 <label for="menu">メニュー（1行に1品）</label>
-<textarea id="menu">ブレンドコーヒー　500円
-季節のケーキ　600円
+<textarea id="menu">自家焙煎ブレンド　500円
+季節のタルト　650円
 本日のランチ　1,200円</textarea>
-<button class="action" onclick="generate()">入力内容をプレビューに反映</button>
+<button class="action" onclick="generate()">プレビューを更新</button>
 </section>
 <section class="panel">
 <h2>② デザインを選ぶ</h2>
 <div class="designs">
 <button class="active" onclick="setDesign('natural',this)">🌿 ナチュラル</button>
-<button onclick="setDesign('dark',this)">🖤 高級・シック</button>
-<button onclick="setDesign('pink',this)">🌸 かわいい</button>
-<button onclick="setDesign('modern',this)">🩵 モダン</button>
+<button onclick="setDesign('dark',this)">◆ シック</button>
+<button onclick="setDesign('pink',this)">✿ やさしい</button>
+<button onclick="setDesign('blue',this)">◇ モダン</button>
 </div>
+<p class="note">デザインを切り替えて、お店の雰囲気に合うスタイルを探せます。</p>
 </section>
-<section class="panel">
+</div>
+<section class="panel sticky">
 <h2>③ ホームページのプレビュー</h2>
-<div id="preview" class="preview">
+<div id="site" class="site">
+<div class="site-nav"><strong id="navShop">喫茶 こもれび</strong><span id="navCategory">CAFE · EST.</span></div>
 <div class="hero">
-<div class="eyebrow" id="categoryView">CAFE</div>
+<div class="kicker" id="kicker">A LITTLE MOMENT OF CALM</div>
 <h3 id="shopView">喫茶 こもれび</h3>
-<p id="descView">ゆったりとした時間を過ごせる、街角の小さなカフェです。</p>
+<p class="hero-desc" id="descView">木漏れ日のようなやさしい時間が流れる、小さな街角のカフェです。</p>
+<span class="hero-link">WELCOME TO OUR SHOP</span>
 </div>
-<div class="shopbody">
-<p>営業時間：<strong id="hoursView"></strong></p>
-<p>定休日：<strong id="holidayView"></strong></p>
-<h4>MENU</h4>
-<div id="menuView"></div>
-<p class="small">※現在はデザイン確認用のプレビューです。</p>
+<div class="photo-grid">
+<div class="photo">A MOMENT TO RELAX</div>
+<div class="photo second">MADE WITH CARE</div>
 </div>
+<div class="section">
+<div class="section-head"><small>OUR MENU</small><h4>季節を味わう</h4></div>
+<div class="cards" id="menuView"></div>
 </div>
+<div class="info">
+<h4>店舗のご案内</h4>
+<div class="info-row"><b>OPEN</b><span id="hoursView"></span></div>
+<div class="info-row"><b>CLOSED</b><span id="holidayView"></span></div>
+<div class="info-row"><b>INFORMATION</b><span id="infoCategory">カフェ</span></div>
+</div>
+<div class="site-footer"><strong id="footerShop">喫茶 こもれび</strong><br>ご来店を心よりお待ちしております。</div>
+</div>
+<p class="note">※写真部分はデザイン見本です。今は実際の写真をアップロードする機能はありません。</p>
 </section>
+</div>
 </main>
 <script>
+function val(id){return document.getElementById(id).value}
 function generate(){
-const get=id=>document.getElementById(id).value;
-document.getElementById('shopView').textContent=get('shop')||'お店の名前';
-document.getElementById('categoryView').textContent=get('category');
-document.getElementById('descView').textContent=get('desc');
-document.getElementById('hoursView').textContent=get('hours');
-document.getElementById('holidayView').textContent=get('holiday');
+const shop=val('shop')||'お店の名前';
+document.getElementById('shopView').textContent=shop;
+document.getElementById('navShop').textContent=shop;
+document.getElementById('footerShop').textContent=shop;
+document.getElementById('descView').textContent=val('desc');
+document.getElementById('hoursView').textContent=val('hours');
+document.getElementById('holidayView').textContent=val('holiday');
+document.getElementById('navCategory').textContent=val('category')+' · EST.';
+document.getElementById('infoCategory').textContent=val('category');
 const menu=document.getElementById('menuView');
 menu.replaceChildren();
-get('menu').split('\n').filter(x=>x.trim()).forEach(line=>{
-const item=document.createElement('div');
-item.className='menuitem';
-item.textContent=line;
-menu.appendChild(item);
+val('menu').split('\n').filter(x=>x.trim()).forEach((line,i)=>{
+const card=document.createElement('div');
+card.className='menu-card';
+const parts=line.trim().split(/\s+/);
+const price=parts.length>1&&/[¥円]/.test(parts[parts.length-1])?parts.pop():'';
+const name=parts.join(' ');
+const title=document.createElement('strong');
+title.textContent=name;
+card.appendChild(title);
+if(price){const amount=document.createElement('span');amount.textContent=price;card.appendChild(amount)}
+const description=document.createElement('p');
+description.textContent=['お店こだわりのおすすめメニューです。','素材の味を大切に、丁寧に仕上げました。','ぜひゆっくりとお楽しみください。'][i%3];
+card.appendChild(description);
+menu.appendChild(card);
 });
 }
 function setDesign(style,button){
-document.getElementById('preview').className='preview '+(style==='natural'?'':style);
+const site=document.getElementById('site');
+site.className='site'+(style==='natural'?'':' '+style);
 document.querySelectorAll('.designs button').forEach(b=>b.classList.remove('active'));
 button.classList.add('active');
+document.getElementById('kicker').textContent=
+style==='dark'?'A REFINED EXPERIENCE':
+style==='pink'?'A LITTLE MOMENT OF HAPPINESS':
+style==='blue'?'SIMPLE. FRESH. MODERN.':'A LITTLE MOMENT OF CALM';
 }
 generate();
 </script>
