@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お店まるごとメーカー</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#252525;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
+header{background:#263c35;color:white;padding:22px 18px}
+header h1{font-size:23px;margin:0 0 6px}
+header p{margin:0;font-size:13px;color:#dce8df}
+main{max-width:1000px;margin:auto;padding:18px}
+.panel{background:white;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 2px 12px #0000000a}
+h2{font-size:19px;margin:0 0 16px}
+label{display:block;font-size:14px;font-weight:600;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd2d0;border-radius:8px;font-size:16px;background:white}
+textarea{min-height:75px}
+button{border:0;border-radius:9px;padding:13px 16px;background:#28694d;color:white;font-size:15px;font-weight:700;width:100%;margin-top:14px}
+.preview{background:white;border-radius:12px;overflow:hidden;border:1px solid #ddd}
+.hero{padding:35px 20px;text-align:center;background:#e8f0e8;color:#263c35}
+.hero h3{font-size:30px;margin:8px 0}
+.hero p{line-height:1.8}
+.shopbody{padding:20px}
+.menuitem{padding:12px 0;border-bottom:1px solid #eee}
+.small{font-size:12px;color:#777}
+</style>
+</head>
+<body>
+<header>
+<h1>お店まるごとメーカー</h1>
+<p>お店の情報からホームページを自動生成</p>
+</header>
+<main>
+<section class="panel">
+<h2>① お店の情報を入力</h2>
+<label for="shop">お店の名前</label>
+<input id="shop" value="喫茶 こもれび" placeholder="例：カフェこもれび">
+<label for="category">業種</label>
+<select id="category">
+<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>その他</option>
+</select>
+<label for="desc">お店の紹介</label>
+<textarea id="desc">ゆったりとした時間を過ごせる、街角の小さなカフェです。</textarea>
+<label for="hours">営業時間</label>
+<input id="hours" value="10:00〜18:00">
+<label for="holiday">定休日</label>
+<input id="holiday" value="毎週水曜日">
+<label for="menu">メニュー（1行に1品）</label>
+<textarea id="menu">ブレンドコーヒー 500円
+季節のケーキ 600円
+本日のランチ 1,200円</textarea>
+<label for="style">デザインの雰囲気</label>
+<select id="style">
+<option value="green">自然・ナチュラル</option>
+<option value="dark">高級・シック</option>
+<option value="pink">かわいい・明るい</option>
+<option value="blue">爽やか・清潔感</option>
+</select>
+<button onclick="generate()">② ホームページを生成・更新</button>
+</section>
+<section class="panel">
+<h2>③ ホームページのプレビュー</h2>
+<p class="small">入力内容を変更して「生成・更新」を押すと、表示が変わります。</p>
+<div class="preview">
+<div class="hero" id="hero">
+<p id="categoryView">カフェ</p>
+<h3 id="shopView">喫茶 こもれび</h3>
+<p id="descView">ゆったりとした時間を過ごせる、街角の小さなカフェです。</p>
+</div>
+<div class="shopbody">
+<h3>営業時間・ご案内</h3>
+<p>営業時間：<strong id="hoursView"></strong></p>
+<p>定休日：<strong id="holidayView"></strong></p>
+<h3>メニュー</h3>
+<div id="menuView"></div>
+<p class="small">※これはプレビューです。まだインターネット上への公開は行っていません。</p>
+</div>
+</div>
+</section>
+</main>
+<script>
+function generate(){
+const get=id=>document.getElementById(id).value;
+document.getElementById('shopView').textContent=get('shop')||'お店の名前';
+document.getElementById('categoryView').textContent=get('category');
+document.getElementById('descView').textContent=get('desc');
+document.getElementById('hoursView').textContent=get('hours');
+document.getElementById('holidayView').textContent=get('holiday');
+const menu=document.getElementById('menuView');
+menu.replaceChildren();
+get('menu').split('\n').filter(x=>x.trim()).forEach(line=>{
+const item=document.createElement('div');
+item.className='menuitem';
+item.textContent=line;
+menu.appendChild(item);
+});
+const themes={
+green:['#e8f0e8','#263c35'],
+dark:['#292929','#ffffff'],
+pink:['#fff0f4','#813e59'],
+blue:['#eaf4fc','#204b70']
+};
+const colors=themes[get('style')];
+const hero=document.getElementById('hero');
+hero.style.background=colors[0];
+hero.style.color=colors[1];
+}
+generate();
+</script>
+</body>
+</html>
