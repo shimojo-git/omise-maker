@@ -4,452 +4,259 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>お店まるごとメーカー｜カフェデザイン</title>
+<title>お店まるごとメーカー</title>
 <style>
-:root {
-  --paper: #f7f4ed;
-  --ink: #302c26;
-  --muted: #81796e;
-  --accent: #a15d3d;
-  --line: #ded8cc;
-  --white: #fffdf8;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: #e9e5dc;
-  color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
-    "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-}
-button, input, textarea, select { font: inherit; }
-button { cursor: pointer; }
-.topbar {
-  padding: 17px 22px;
-  background: #292720;
-  color: #fffaf0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-.brand { font-size: 15px; font-weight: 700; letter-spacing: .08em; }
-.topbar small { color: #c6bfb0; font-size: 11px; }
-.workspace {
-  max-width: 1440px;
-  margin: auto;
-  padding: 22px;
-  display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  gap: 22px;
-  align-items: start;
-}
-.panel {
-  background: #fffdf9;
-  padding: 22px;
-  border: 1px solid #e2ddd3;
-  border-radius: 5px;
-}
-.panel h1 { font-size: 21px; margin: 0 0 7px; }
-.panel .lead { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 0 0 23px; }
-.field { margin: 17px 0; }
-.field label {
-  display: block; font-size: 12px; font-weight: 700;
-  margin-bottom: 7px;
-}
-.field input, .field textarea, .field select {
-  display: block;
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #d9d3c8;
-  border-radius: 3px;
-  background: white;
-  color: var(--ink);
-  font-size: 13px;
-}
-.field textarea { min-height: 76px; resize: vertical; line-height: 1.7; }
-.hint { color: var(--muted); font-size: 11px; line-height: 1.7; margin-top: 6px; }
-.primary {
-  width: 100%; padding: 13px;
-  border: 0; border-radius: 3px;
-  background: #302c26; color: white; font-weight: 700;
-}
-.photo-input {
-  width: 100%; font-size: 12px; margin-top: 6px;
-}
-.preview-heading {
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 10px; margin: 0 0 12px; color: #665e52; font-size: 12px;
-}
-.preview-heading strong { color: #302c26; font-size: 14px; }
-.site {
-  background: var(--paper);
-  overflow: hidden;
-  box-shadow: 0 8px 35px #39312515;
-}
-.site-header {
-  min-height: 76px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 15px; padding: 20px 6%;
-  border-bottom: 1px solid var(--line);
-}
-.site-logo {
-  font-family: Georgia, "Yu Mincho", serif;
-  font-size: 21px; letter-spacing: .06em; font-weight: 500;
-}
-.site-nav { display: flex; gap: 22px; font-size: 10px; letter-spacing: .1em; }
-.site-nav span { white-space: nowrap; }
-.hero {
-  padding: 45px 6% 48px;
-  display: grid;
-  grid-template-columns: .85fr 1.15fr;
-  gap: 30px;
-  align-items: center;
-}
-.eyebrow {
-  color: var(--accent); font-size: 10px;
-  font-weight: 700; letter-spacing: .22em;
-  text-transform: uppercase;
-}
-.hero h2 {
-  font-family: Georgia, "Yu Mincho", serif;
-  font-weight: 400; font-size: clamp(32px, 4.2vw, 58px);
-  line-height: 1.25; letter-spacing: -.04em;
-  margin: 17px 0;
-}
-.hero p {
-  font-size: 12px; line-height: 2.1; color: var(--muted);
-  max-width: 330px; white-space: pre-line;
-}
-.hero-link {
-  display: inline-block; margin-top: 16px;
-  padding-bottom: 7px; border-bottom: 1px solid var(--accent);
-  font-size: 11px; letter-spacing: .08em;
-}
-.hero-image {
-  min-height: 300px;
-  background:
-    linear-gradient(135deg, #b5a38a, #6e5743 52%, #d5c4a5);
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-.image-label {
-  position: absolute; bottom: 14px; right: 14px;
-  color: white; font-family: Georgia, serif;
-  font-size: 11px; letter-spacing: .12em;
-  text-shadow: 0 1px 5px #0008;
-}
-.section { padding: 55px 6%; }
-.section-head {
-  display: flex; justify-content: space-between; align-items: end;
-  gap: 15px; margin-bottom: 25px;
-}
-.section-head h3 {
-  font-family: Georgia, "Yu Mincho", serif;
-  font-size: 30px; font-weight: 400; margin: 8px 0 0;
-}
-.section-head p { color: var(--muted); font-size: 11px; margin: 0; }
-.menu-grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 15px;
-}
-.menu-card { background: var(--white); }
-.menu-photo {
-  height: 135px;
-  background: linear-gradient(145deg, #dfc9a7, #96775b 60%, #554332);
-  background-size: cover; background-position: center;
-}
-.menu-card:nth-child(2) .menu-photo {
-  background: linear-gradient(145deg, #d9d0b7, #b18d69 55%, #796048);
-}
-.menu-card:nth-child(3) .menu-photo {
-  background: linear-gradient(145deg, #e4d9c8, #9a775e 60%, #59483a);
-}
-.menu-copy { padding: 15px 13px 17px; }
-.menu-copy h4 { font-size: 13px; margin: 0 0 8px; }
-.menu-copy p { font-size: 10px; color: var(--muted); line-height: 1.8; margin: 0 0 12px; }
-.price { font-family: Georgia, serif; font-size: 15px; }
-.story {
-  background: #e9e2d5;
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 35px; align-items: center;
-}
-.story-art {
-  min-height: 240px;
-  background: linear-gradient(145deg, #b8a58a, #77634d 55%, #d3bfa0);
-  background-size: cover; background-position: center;
-}
-.story h3 {
-  font-family: Georgia, "Yu Mincho", serif;
-  font-weight: 400; font-size: 32px; line-height: 1.5;
-  margin: 13px 0;
-}
-.story p { color: #6f6659; font-size: 12px; line-height: 2.1; white-space: pre-line; }
-.info-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 30px;
-}
-.info-grid h3 {
-  font-family: Georgia, "Yu Mincho", serif;
-  font-weight: 400; font-size: 27px; margin: 10px 0 20px;
-}
-.info-row {
-  display: grid; grid-template-columns: 85px 1fr;
-  gap: 12px; padding: 13px 0;
-  border-top: 1px solid var(--line); font-size: 11px; line-height: 1.8;
-}
-.info-row span:first-child { color: var(--muted); }
-.access-note { color: var(--muted); font-size: 11px; line-height: 2; }
-.site-footer {
-  padding: 25px 6%; background: #302c26; color: #eee6d9;
-  display: flex; justify-content: space-between; gap: 15px;
-  font-size: 10px; letter-spacing: .08em;
-}
-.status {
-  padding: 11px 15px; background: #e9e2d5;
-  font-size: 11px; line-height: 1.8; color: #615647;
-}
-@media (min-width: 1000px) {
-  .site { max-width: 1050px; margin: auto; }
-}
-@media (max-width: 760px) {
-  .workspace { display: flex; flex-direction: column; padding: 12px; gap: 15px; }
-  .panel { width: 100%; padding: 18px; }
-  .preview-wrap { width: 100%; min-width: 0; }
-  .site-header { padding: 17px 5%; min-height: 64px; }
-  .site-logo { font-size: 17px; }
-  .site-nav { gap: 10px; font-size: 9px; }
-  .hero { padding: 35px 6% 30px; grid-template-columns: 1fr; gap: 22px; }
-  .hero h2 { font-size: 42px; }
-  .hero-image { min-height: 230px; }
-  .section { padding: 38px 6%; }
-  .section-head h3 { font-size: 26px; }
-  .menu-grid { gap: 8px; }
-  .menu-photo { height: 100px; }
-  .menu-copy { padding: 10px 8px 12px; }
-  .menu-copy h4 { font-size: 11px; }
-  .menu-copy p { font-size: 9px; }
-  .price { font-size: 13px; }
-  .story { grid-template-columns: 1fr; gap: 22px; }
-  .story-art { min-height: 190px; }
-  .story h3 { font-size: 28px; }
-  .info-grid { grid-template-columns: 1fr; gap: 28px; }
+*{box-sizing:border-box}
+body{margin:0;background:#e9e6df;color:#302d28;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Yu Gothic",sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.top{background:#292820;color:#fff;padding:16px 22px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.top b{letter-spacing:.06em;font-size:15px}
+.top span{font-size:10px;color:#c9c1b2}
+.workspace{max-width:1450px;margin:auto;padding:20px;display:grid;grid-template-columns:310px minmax(0,1fr);gap:20px;align-items:start}
+.panel{background:#fffdf8;padding:20px;border:1px solid #ddd7cc}
+.panel h1{font-size:21px;margin:0 0 8px}
+.note{font-size:12px;line-height:1.8;color:#82796d}
+.field{margin:15px 0}
+.field label{display:block;font-size:12px;font-weight:700;margin-bottom:6px}
+.field input,.field textarea,.field select{width:100%;padding:10px;border:1px solid #d8d1c5;background:white;border-radius:3px;font-size:13px}
+.field textarea{min-height:70px;line-height:1.7}
+.small{font-size:10px;color:#81796e;line-height:1.7}
+.themes{display:grid;grid-template-columns:1fr;gap:8px;margin:12px 0 20px}
+.theme{padding:12px;text-align:left;background:#fff;border:1px solid #ddd5c8;color:#383229;border-radius:3px}
+.theme strong{display:block;font-size:13px}
+.theme span{display:block;font-size:10px;margin-top:4px;color:#82796d}
+.theme.active{border:2px solid #302c26;background:#f1ece2}
+.primary{border:0;background:#302c26;color:white;padding:13px;width:100%;font-weight:700;border-radius:3px}
+.preview-title{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin:0 0 12px}
+.site{--paper:#f7f4ed;--ink:#302c26;--muted:#81796e;--accent:#a15d3d;--line:#ded8cc;--card:#fffdf8;background:var(--paper);color:var(--ink);overflow:hidden;box-shadow:0 8px 30px #0000000c}
+.site-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:23px 6%;border-bottom:1px solid var(--line)}
+.logo{font-family:Georgia,"Yu Mincho",serif;font-size:22px;letter-spacing:.04em}
+.nav{display:flex;gap:17px;font-size:9px;letter-spacing:.12em}
+.nav span{white-space:nowrap}
+.hero{padding:48px 6%;display:grid;grid-template-columns:.82fr 1.18fr;gap:28px;align-items:center}
+.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:700;color:var(--accent)}
+.hero h2{font-family:Georgia,"Yu Mincho",serif;font-size:clamp(32px,4vw,57px);line-height:1.3;letter-spacing:-.04em;font-weight:400;margin:16px 0}
+.hero p,.story p{font-size:12px;line-height:2.1;color:var(--muted);white-space:pre-line}
+.hero-image{min-height:330px;background:linear-gradient(135deg,#c6b49a,#7c634d 55%,#dfcdb0);background-position:center;background-size:cover;position:relative}
+.image-caption{position:absolute;right:13px;bottom:13px;color:white;font:11px Georgia,serif;letter-spacing:.12em;text-shadow:0 1px 5px #000}
+.link{display:inline-block;margin-top:12px;padding-bottom:7px;border-bottom:1px solid var(--accent);font-size:11px;letter-spacing:.1em}
+.section{padding:52px 6%}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:24px}
+.section-head h3,.info-title{font:400 29px Georgia,"Yu Mincho",serif;margin:8px 0 0}
+.section-head p{font-size:10px;color:var(--muted)}
+.menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.menu-card{background:var(--card);min-width:0}
+.menu-photo{height:145px;background:linear-gradient(145deg,#e4d1b4,#a27e5b 58%,#65503d);background-position:center;background-size:cover}
+.menu-card:nth-child(2) .menu-photo{background:linear-gradient(145deg,#e7ddc8,#c09b78 55%,#7d614b)}
+.menu-card:nth-child(3) .menu-photo{background:linear-gradient(145deg,#e2d6c2,#ad8a68 55%,#705943)}
+.menu-copy{padding:15px 12px 17px}
+.menu-copy h4{font-size:12px;margin:0 0 8px}
+.menu-copy p{font-size:10px;color:var(--muted);line-height:1.8;margin:0 0 12px}
+.price{font:15px Georgia,serif}
+.story{background:#e9e2d5;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.story-art{min-height:245px;background:linear-gradient(140deg,#c8b397,#887056 55%,#dfcdb0);background-position:center;background-size:cover}
+.story h3{font:400 31px/1.5 Georgia,"Yu Mincho",serif;margin:12px 0}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.info-row{display:grid;grid-template-columns:82px 1fr;gap:10px;padding:13px 0;border-top:1px solid var(--line);font-size:11px;line-height:1.8}
+.info-row span:first-child{color:var(--muted)}
+.access-note{font-size:11px;line-height:2;color:var(--muted)}
+.footer{padding:24px 6%;background:var(--ink);color:#f5eee1;display:flex;justify-content:space-between;gap:10px;font-size:10px;letter-spacing:.08em}
+.retro .site-header{background:#30251e;color:#f6e9d1;border:0}
+.retro{--paper:#f0e2c5;--ink:#38291f;--muted:#705642;--accent:#a33e2b;--line:#b9a184;--card:#f8eedb}
+.retro .logo,.retro .hero h2,.retro .section-head h3,.retro .story h3,.retro .info-title{font-family:Georgia,"Times New Roman",serif}
+.retro .hero{grid-template-columns:1fr;gap:20px}
+.retro .hero h2{font-size:clamp(36px,5vw,64px);max-width:650px}
+.retro .hero-image{min-height:250px;border:7px double #a58a66}
+.retro .section-head{border-bottom:2px solid var(--ink);padding-bottom:13px}
+.retro .menu-grid{grid-template-columns:1fr;gap:0}
+.retro .menu-card{display:grid;grid-template-columns:130px 1fr;border-bottom:1px dashed var(--line);align-items:center}
+.retro .menu-photo{height:100px}
+.retro .story{background:#ded0b0}
+.retro .footer{background:#30251e}
+.sweets{--paper:#fff8f5;--ink:#442b35;--muted:#8a6e79;--accent:#d45e81;--line:#f0d5df;--card:#fff}
+.sweets .site-header{border-bottom:0}
+.sweets .logo{font-family:Georgia,"Yu Mincho",serif;font-weight:bold}
+.sweets .hero{grid-template-columns:1fr 1fr;background:#fbe6ec;gap:20px}
+.sweets .hero h2{font-family:"Yu Mincho",serif;font-weight:700;font-size:clamp(35px,4.5vw,60px)}
+.sweets .hero-image{min-height:350px;border-radius:48% 48% 5px 5px}
+.sweets .menu-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.sweets .menu-card{border-radius:8px;overflow:hidden;box-shadow:0 7px 20px #8c53600d}
+.sweets .menu-photo{height:175px}
+.sweets .section-head h3{font-weight:700}
+.sweets .story{background:#fbe6ec}
+.sweets .story-art{border-radius:100px 100px 5px 5px}
+.sweets .footer{background:#693d50}
+@media(min-width:1000px){.site{max-width:1050px;margin:auto}}
+@media(max-width:760px){
+.workspace{display:flex;flex-direction:column;padding:10px;gap:15px}
+.panel,.preview-wrap{width:100%;min-width:0}
+.panel{padding:16px}
+.site-header{padding:17px 5%}
+.logo{font-size:17px}
+.nav{gap:9px;font-size:8px}
+.hero{grid-template-columns:1fr;padding:32px 6%;gap:20px}
+.hero h2{font-size:40px}
+.hero-image{min-height:230px}
+.section{padding:35px 6%}
+.section-head h3{font-size:24px}
+.menu-grid{gap:8px}
+.menu-photo{height:100px}
+.menu-copy{padding:10px 7px 12px}
+.menu-copy h4{font-size:10px}
+.menu-copy p{font-size:9px}
+.price{font-size:12px}
+.story{grid-template-columns:1fr;gap:20px}
+.story-art{min-height:190px}
+.story h3{font-size:27px}
+.info-grid{grid-template-columns:1fr;gap:25px}
+.retro .hero{grid-template-columns:1fr}
+.retro .menu-card{grid-template-columns:95px 1fr}
+.retro .menu-photo{height:90px}
+.sweets .hero{grid-template-columns:1fr}
+.sweets .hero-image{min-height:240px}
+.sweets .menu-grid{gap:7px}
+.sweets .menu-photo{height:95px}
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">お店まるごとメーカー</div>
-  <small>CAFE WEBSITE STUDIO / PROTOTYPE</small>
-</header>
-
+<header class="top"><b>お店まるごとメーカー</b><span>DESIGN STUDIO / PROTOTYPE</span></header>
 <main class="workspace">
-  <aside class="panel">
-    <h1>お店のサイトを作る</h1>
-    <p class="lead">お店の情報を入力すると、右側のデザインに反映されます。まずはサンプルを編集してみましょう。</p>
+<aside class="panel">
+<h1>お店のサイトを作る</h1>
+<p class="note">お店の情報を入力して、デザインを選んでみましょう。デザインごとにレイアウトも変わります。</p>
 
-    <div class="field">
-      <label for="shopName">お店の名前</label>
-      <input id="shopName" value="喫茶と、余白。">
-    </div>
-    <div class="field">
-      <label for="category">お店の種類</label>
-      <select id="category">
-        <option>スペシャルティコーヒー</option>
-        <option>喫茶店</option>
-        <option>カフェ・スイーツ</option>
-        <option>ベーカリーカフェ</option>
-        <option>レストラン</option>
-        <option>居酒屋</option>
-      </select>
-    </div>
-    <div class="field">
-      <label for="intro">お店の紹介</label>
-      <textarea id="intro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
-いつもの一日に、少しだけ心ほどける時間を。</textarea>
-    </div>
-    <div class="field">
-      <label for="hours">営業時間</label>
-      <input id="hours" value="10:00 — 18:00">
-    </div>
-    <div class="field">
-      <label for="holiday">定休日</label>
-      <input id="holiday" value="毎週水曜日">
-    </div>
-    <div class="field">
-      <label for="address">住所・アクセス</label>
-      <textarea id="address">大阪府〇〇市〇〇町 1-2-3
-〇〇駅から徒歩5分</textarea>
-    </div>
-    <div class="field">
-      <label for="menu1">メニュー 1</label>
-      <input id="menu1" value="ハンドドリップコーヒー">
-      <input id="price1" value="¥550" style="margin-top:7px">
-    </div>
-    <div class="field">
-      <label for="menu2">メニュー 2</label>
-      <input id="menu2" value="季節のチーズケーキ">
-      <input id="price2" value="¥620" style="margin-top:7px">
-    </div>
-    <div class="field">
-      <label for="menu3">メニュー 3</label>
-      <input id="menu3" value="カフェラテ">
-      <input id="price3" value="¥600" style="margin-top:7px">
-    </div>
-    <div class="field">
-      <label for="heroFile">メイン写真</label>
-      <input class="photo-input" id="heroFile" type="file" accept="image/*">
-      <p class="hint">選んだ写真は、この画面のプレビューに表示されます。サーバー保存機能はまだありません。</p>
-    </div>
-    <div class="field">
-      <label for="menuFile">メニュー写真</label>
-      <input class="photo-input" id="menuFile" type="file" accept="image/*" multiple>
-      <p class="hint">最大3枚まで選べます。写真は再読み込みすると消えます。</p>
-    </div>
-    <button class="primary" id="updateBtn" type="button">プレビューを更新する</button>
-    <p class="hint">この試作品はブラウザ内で動作します。入力内容や写真の保存・公開機能は未実装です。</p>
-  </aside>
+<div class="field"><label>デザインテンプレート</label></div>
+<div class="themes">
+<button class="theme active" data-theme="premium"><strong>01　上質なカフェ</strong><span>余白・大きな写真・洗練された構成</span></button>
+<button class="theme" data-theme="retro"><strong>02　レトロな喫茶店</strong><span>クラシック・メニュー表・懐かしさ</span></button>
+<button class="theme" data-theme="sweets"><strong>03　スイーツカフェ</strong><span>明るい配色・商品を主役に</span></button>
+</div>
 
-  <section class="preview-wrap">
-    <div class="preview-heading">
-      <strong>WEBSITE PREVIEW</strong>
-      <span>カフェ・飲食店テンプレート</span>
-    </div>
-    <div class="site" id="site">
-      <header class="site-header">
-        <div class="site-logo" id="viewName">喫茶と、余白。</div>
-        <nav class="site-nav">
-          <span>CONCEPT</span><span>MENU</span><span>ACCESS</span>
-        </nav>
-      </header>
+<div class="field"><label for="shopName">お店の名前</label><input id="shopName" value="喫茶と、余白。"></div>
+<div class="field"><label for="category">お店の種類</label><select id="category"><option>スペシャルティコーヒー</option><option>喫茶店</option><option>カフェ・スイーツ</option><option>ベーカリーカフェ</option><option>レストラン</option><option>居酒屋</option></select></div>
+<div class="field"><label for="intro">お店の紹介</label><textarea id="intro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
+いつもの一日に、少しだけ心ほどける時間を。</textarea></div>
+<div class="field"><label for="hours">営業時間</label><input id="hours" value="10:00 — 18:00"></div>
+<div class="field"><label for="holiday">定休日</label><input id="holiday" value="毎週水曜日"></div>
+<div class="field"><label for="address">住所・アクセス</label><textarea id="address">大阪府〇〇市〇〇町 1-2-3
+〇〇駅から徒歩5分</textarea></div>
+<div class="field"><label for="menu1">メニュー 1</label><input id="menu1" value="ハンドドリップコーヒー"><input id="price1" value="¥550" style="margin-top:6px"></div>
+<div class="field"><label for="menu2">メニュー 2</label><input id="menu2" value="季節のチーズケーキ"><input id="price2" value="¥620" style="margin-top:6px"></div>
+<div class="field"><label for="menu3">メニュー 3</label><input id="menu3" value="カフェラテ"><input id="price3" value="¥600" style="margin-top:6px"></div>
+<div class="field"><label for="heroFile">メイン写真を選ぶ</label><input id="heroFile" type="file" accept="image/*"><p class="small">このブラウザでのプレビュー用。サーバー保存は未実装です。</p></div>
+<div class="field"><label for="menuFile">メニュー写真を選ぶ（最大3枚）</label><input id="menuFile" type="file" accept="image/*" multiple><p class="small">ページを再読み込みすると写真は消えます。</p></div>
+<button class="primary" id="updateBtn" type="button">プレビューを更新する</button>
+<p class="small">現在は試作品です。入力内容や写真を保存・公開する機能はまだありません。</p>
+</aside>
 
-      <section class="hero">
-        <div>
-          <div class="eyebrow" id="viewCategory">SPECIALTY COFFEE</div>
-          <h2>何もしない時間も、<br>大切に。</h2>
-          <p id="viewIntro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
-いつもの一日に、少しだけ心ほどける時間を。</p>
-          <span class="hero-link">OUR STORY　↗</span>
-        </div>
-        <div class="hero-image" id="heroImage">
-          <span class="image-label">A LITTLE MOMENT OF CALM</span>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="section-head">
-          <div><div class="eyebrow">OUR MENU</div><h3>今日の、おいしいもの。</h3></div>
-          <p>季節の素材を、丁寧に。</p>
-        </div>
-        <div class="menu-grid">
-          <article class="menu-card">
-            <div class="menu-photo" id="menuPhoto1"></div>
-            <div class="menu-copy"><h4 id="viewMenu1">ハンドドリップコーヒー</h4><p>香り豊かな豆を、一杯ずつ丁寧に。</p><div class="price" id="viewPrice1">¥550</div></div>
-          </article>
-          <article class="menu-card">
-            <div class="menu-photo" id="menuPhoto2"></div>
-            <div class="menu-copy"><h4 id="viewMenu2">季節のチーズケーキ</h4><p>素材の味を楽しむ、手づくりのお菓子。</p><div class="price" id="viewPrice2">¥620</div></div>
-          </article>
-          <article class="menu-card">
-            <div class="menu-photo" id="menuPhoto3"></div>
-            <div class="menu-copy"><h4 id="viewMenu3">カフェラテ</h4><p>ミルクの甘さとエスプレッソの調和。</p><div class="price" id="viewPrice3">¥600</div></div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section story">
-        <div class="story-art" id="storyImage"></div>
-        <div>
-          <div class="eyebrow">OUR PHILOSOPHY</div>
-          <h3>いつもの日常に、<br>小さな余白を。</h3>
-          <p id="storyText">忙しい毎日の途中で、ふっとひと息。
-おいしいコーヒーと落ち着く空間をご用意して、お待ちしています。</p>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="info-grid">
-          <div>
-            <div class="eyebrow">INFORMATION</div>
-            <h3>お店のこと</h3>
-            <div class="info-row"><span>OPEN</span><span id="viewHours">10:00 — 18:00</span></div>
-            <div class="info-row"><span>CLOSED</span><span id="viewHoliday">毎週水曜日</span></div>
-            <div class="info-row"><span>ADDRESS</span><span id="viewAddress">大阪府〇〇市〇〇町 1-2-3<br>〇〇駅から徒歩5分</span></div>
-          </div>
-          <div>
-            <div class="eyebrow">VISIT US</div>
-            <h3>お近くに来たら、ぜひ。</h3>
-            <p class="access-note">店内でゆっくり過ごすひとときを。<br>営業時間・定休日をご確認のうえお越しください。</p>
-          </div>
-        </div>
-      </section>
-
-      <footer class="site-footer">
-        <span id="footerName">喫茶と、余白。</span>
-        <span>THANK YOU FOR VISITING.</span>
-      </footer>
-    </div>
-    <p class="status">これはサイト制作ツールの試作品です。写真はこのブラウザでのプレビュー用で、一般公開サイトへアップロードされるわけではありません。</p>
-  </section>
+<section class="preview-wrap">
+<div class="preview-title"><b>WEBSITE PREVIEW</b><span>テンプレート切り替え対応</span></div>
+<div class="site" id="site">
+<header class="site-header"><div class="logo" id="viewName">喫茶と、余白。</div><nav class="nav"><span>STORY</span><span>MENU</span><span>ACCESS</span></nav></header>
+<section class="hero">
+<div><div class="eyebrow" id="viewCategory">SPECIALTY COFFEE</div><h2 id="heroTitle">何もしない時間も、<br>大切に。</h2><p id="viewIntro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
+いつもの一日に、少しだけ心ほどける時間を。</p><span class="link" id="heroLink">OUR STORY　↗</span></div>
+<div class="hero-image" id="heroImage"><span class="image-caption">A LITTLE MOMENT OF CALM</span></div>
+</section>
+<section class="section">
+<div class="section-head"><div><div class="eyebrow">OUR MENU</div><h3 id="menuHeading">今日の、おいしいもの。</h3></div><p>季節の素材を、丁寧に。</p></div>
+<div class="menu-grid">
+<article class="menu-card"><div class="menu-photo" id="menuPhoto1"></div><div class="menu-copy"><h4 id="viewMenu1">ハンドドリップコーヒー</h4><p id="menuDesc1">香り豊かな豆を、一杯ずつ丁寧に。</p><div class="price" id="viewPrice1">¥550</div></div></article>
+<article class="menu-card"><div class="menu-photo" id="menuPhoto2"></div><div class="menu-copy"><h4 id="viewMenu2">季節のチーズケーキ</h4><p id="menuDesc2">素材の味を楽しむ、手づくりのお菓子。</p><div class="price" id="viewPrice2">¥620</div></div></article>
+<article class="menu-card"><div class="menu-photo" id="menuPhoto3"></div><div class="menu-copy"><h4 id="viewMenu3">カフェラテ</h4><p id="menuDesc3">ミルクの甘さとエスプレッソの調和。</p><div class="price" id="viewPrice3">¥600</div></div></article>
+</div>
+</section>
+<section class="section story"><div class="story-art" id="storyImage"></div><div><div class="eyebrow">OUR PHILOSOPHY</div><h3 id="storyHeading">いつもの日常に、<br>小さな余白を。</h3><p id="storyText">忙しい毎日の途中で、ふっとひと息。
+おいしいコーヒーと落ち着く空間をご用意して、お待ちしています。</p></div></section>
+<section class="section"><div class="info-grid"><div><div class="eyebrow">INFORMATION</div><h3 class="info-title">お店のこと</h3><div class="info-row"><span>OPEN</span><span id="viewHours">10:00 — 18:00</span></div><div class="info-row"><span>CLOSED</span><span id="viewHoliday">毎週水曜日</span></div><div class="info-row"><span>ADDRESS</span><span id="viewAddress">大阪府〇〇市〇〇町 1-2-3</span></div></div><div><div class="eyebrow">VISIT US</div><h3 class="info-title">お近くに来たら、ぜひ。</h3><p class="access-note">営業時間・定休日をご確認のうえお越しください。</p></div></div></section>
+<footer class="footer"><span id="footerName">喫茶と、余白。</span><span>THANK YOU FOR VISITING.</span></footer>
+</div>
+<p class="note">写真を選ぶと、このプレビュー内に表示されます。写真や入力内容はサーバーに保存されません。</p>
+</section>
 </main>
-
 <script>
-const $ = (id) => document.getElementById(id);
+const $=id=>document.getElementById(id);
+let currentTheme="premium";
 
-function updatePreview() {
-  const name = $("shopName").value.trim() || "お店の名前";
-  const category = $("category").value;
-  const intro = $("intro").value.trim();
-  const hours = $("hours").value.trim() || "営業時間をご入力ください";
-  const holiday = $("holiday").value.trim() || "定休日をご入力ください";
-  const address = $("address").value.trim() || "住所をご入力ください";
-
-  $("viewName").textContent = name;
-  $("footerName").textContent = name;
-  $("viewCategory").textContent = category.toUpperCase();
-  $("viewIntro").textContent = intro;
-  $("viewHours").textContent = hours;
-  $("viewHoliday").textContent = holiday;
-  $("viewAddress").textContent = address;
-  $("storyText").textContent = intro || "お店のこだわりを紹介しましょう。";
-
-  for (let i = 1; i <= 3; i++) {
-    $("viewMenu" + i).textContent = $("menu" + i).value.trim() || "おすすめメニュー";
-    $("viewPrice" + i).textContent = $("price" + i).value.trim() || "価格は店頭にて";
-  }
+const themeCopy={
+premium:{
+title:"何もしない時間も、<br>大切に。",
+menu:"今日の、おいしいもの。",
+story:"いつもの日常に、<br>小さな余白を。",
+link:"OUR STORY　↗",
+descs:["香り豊かな豆を、一杯ずつ丁寧に。","素材の味を楽しむ、手づくりのお菓子。","ミルクの甘さとエスプレッソの調和。"]
+},
+retro:{
+title:"懐かしい味と、<br>変わらないひととき。",
+menu:"喫茶店の定番。",
+story:"ゆっくり流れる、<br>いつもの時間。",
+link:"当店について　→",
+descs:["深いコクと香りを楽しむ一杯。","昔ながらの製法で焼き上げました。","ほっとする甘さの定番ドリンク。"]
+},
+sweets:{
+title:"甘いひとくちで、<br>今日をごほうびに。",
+menu:"心ときめく、甘いもの。",
+story:"好きなものに囲まれる、<br>しあわせな時間。",
+link:"SWEET MOMENTS　↗",
+descs:["香り華やかなスペシャルティコーヒー。","季節の果物を添えた人気のケーキ。","やさしい甘さのなめらかなラテ。"]
 }
+};
 
-function showImage(input, target) {
-  const file = input.files && input.files[0];
-  if (!file) return;
-  if (!file.type.startsWith("image/")) {
-    alert("画像ファイルを選んでください。");
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = () => {
-    $(target).style.backgroundImage = "url('" + reader.result + "')";
-  };
-  reader.readAsDataURL(file);
+function updatePreview(){
+const name=$("shopName").value.trim()||"お店の名前";
+const intro=$("intro").value.trim();
+$("viewName").textContent=name;
+$("footerName").textContent=name;
+$("viewCategory").textContent=$("category").value.toUpperCase();
+$("viewIntro").textContent=intro;
+$("viewHours").textContent=$("hours").value.trim()||"営業時間をご入力ください";
+$("viewHoliday").textContent=$("holiday").value.trim()||"定休日をご入力ください";
+$("viewAddress").textContent=$("address").value.trim()||"住所をご入力ください";
+$("storyText").textContent=intro||"お店のこだわりを紹介しましょう。";
+for(let i=1;i<=3;i++){
+$("viewMenu"+i).textContent=$("menu"+i).value.trim()||"おすすめメニュー";
+$("viewPrice"+i).textContent=$("price"+i).value.trim()||"価格は店頭にて";
 }
-
-$("updateBtn").addEventListener("click", updatePreview);
-$("heroFile").addEventListener("change", () => showImage($("heroFile"), "heroImage"));
-
-$("menuFile").addEventListener("change", () => {
-  const files = Array.from($("menuFile").files || []).slice(0, 3);
-  files.forEach((file, index) => {
-    if (!file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      $("menuPhoto" + (index + 1)).style.backgroundImage = "url('" + reader.result + "')";
-    };
-    reader.readAsDataURL(file);
-  });
+}
+function setTheme(theme){
+currentTheme=theme;
+$("site").classList.remove("retro","sweets");
+if(theme!=="premium")$("site").classList.add(theme);
+document.querySelectorAll(".theme").forEach(button=>{
+button.classList.toggle("active",button.dataset.theme===theme);
 });
-
+const c=themeCopy[theme];
+$("heroTitle").innerHTML=c.title;
+$("menuHeading").textContent=c.menu;
+$("storyHeading").innerHTML=c.story;
+$("heroLink").textContent=c.link;
+for(let i=1;i<=3;i++)$("menuDesc"+i).textContent=c.descs[i-1];
+}
+function showImage(input,target){
+const file=input.files&&input.files[0];
+if(!file)return;
+if(!file.type.startsWith("image/")){alert("画像ファイルを選んでください");return;}
+const reader=new FileReader();
+reader.onload=()=>{$(target).style.backgroundImage="url('"+reader.result+"')";};
+reader.readAsDataURL(file);
+}
+document.querySelectorAll(".theme").forEach(button=>{
+button.addEventListener("click",()=>setTheme(button.dataset.theme));
+});
+$("updateBtn").addEventListener("click",updatePreview);
+$("heroFile").addEventListener("change",()=>showImage($("heroFile"),"heroImage"));
+$("menuFile").addEventListener("change",()=>{
+Array.from($("menuFile").files||[]).slice(0,3).forEach((file,index)=>{
+if(!file.type.startsWith("image/"))return;
+const reader=new FileReader();
+reader.onload=()=>{$("menuPhoto"+(index+1)).style.backgroundImage="url('"+reader.result+"')";};
+reader.readAsDataURL(file);
+});
+});
 updatePreview();
+setTheme("premium");
 </script>
 </body>
 </html>
