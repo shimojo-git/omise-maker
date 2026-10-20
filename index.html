@@ -4,177 +4,452 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>お店まるごとメーカー</title>
+<title>お店まるごとメーカー｜カフェデザイン</title>
 <style>
-*{box-sizing:border-box}
-:root{--ink:#293b30;--paper:#f8f6f0;--accent:#71816a;--line:#e5e1d8}
-body{margin:0;background:#f0eee8;color:#292c27;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif}
-header{background:#263a30;color:#fff;padding:20px 18px}
-header h1{margin:0;font-size:21px;letter-spacing:.04em}
-header p{margin:5px 0 0;font-size:12px;color:#d6dfd6}
-main{max-width:1050px;margin:auto;padding:16px}
-.panel{background:white;border-radius:16px;padding:18px;margin-bottom:18px}
-h2{font-size:18px;margin:0 0 14px}
-label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}
-input,textarea,select{width:100%;padding:12px;border:1px solid #d8d8d0;border-radius:8px;font:inherit;font-size:16px;background:#fff}
-textarea{min-height:72px}
-button{font:inherit;cursor:pointer}
-.action{width:100%;padding:13px;border:0;border-radius:8px;background:#344e3c;color:white;font-weight:700;margin-top:14px}
-.designs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.designs button{border:1px solid #ddd;background:#faf9f5;padding:12px 6px;border-radius:8px;font-size:13px}
-.designs button.active{background:#344e3c;color:white;border-color:#344e3c}
-.site{--hero:#e8e9df;--ink:#293b30;--accent:#71816a;background:white;border:1px solid #e2e0d8;border-radius:12px;overflow:hidden;color:var(--ink)}
-.site.dark{--hero:#292724;--ink:#f7f0e5;--accent:#b9a17a;background:#f8f4ed;color:#292724}
-.site.pink{--hero:#f7e8e8;--ink:#744b53;--accent:#b77b86}
-.site.blue{--hero:#e6eff3;--ink:#284b5c;--accent:#638da0}
-.site-nav{padding:17px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;letter-spacing:.08em}
-.site-nav strong{font-family:Georgia,serif;font-size:17px;letter-spacing:0}
-.site-nav span{font-size:10px}
-.hero{background:var(--hero);padding:36px 20px 30px;text-align:center}
-.kicker{font-size:10px;letter-spacing:.25em;text-transform:uppercase}
-.hero h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:clamp(31px,7vw,48px);line-height:1.18;margin:17px auto;max-width:600px;overflow-wrap:anywhere}
-.hero-desc{font-size:13px;line-height:2;max-width:460px;margin:0 auto 22px}
-.hero-link{display:inline-block;border:1px solid var(--ink);padding:11px 20px;color:var(--ink);font-size:11px;letter-spacing:.08em}
-.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:white;padding:5px}
-.photo{min-height:120px;aspect-ratio:1.15;display:flex;align-items:end;padding:12px;background:linear-gradient(145deg,#d8c9b1,#f0e8da 48%,#a5a88b);color:#fff;font-size:10px;letter-spacing:.12em;text-shadow:0 1px 3px #555}
-.photo.second{background:linear-gradient(145deg,#8c9b7b,#d9c8a6 50%,#765a42)}
-.section{padding:28px 20px}
-.section-head{margin-bottom:17px}
-.section-head small{letter-spacing:.2em;color:var(--accent);font-size:10px}
-.section-head h4{font:normal 28px Georgia,serif;margin:6px 0 0}
-.intro{font-size:13px;line-height:2;color:#666}
-.cards{display:grid;grid-template-columns:1fr;gap:10px}
-.menu-card{border:1px solid var(--line);padding:15px;border-radius:8px;background:#fff}
-.menu-card strong{font-size:13px;font-weight:600}
-.menu-card span{float:right;font-family:Georgia,serif;font-size:14px}
-.menu-card p{font-size:11px;color:#777;line-height:1.7;margin:8px 0 0}
-.info{background:#f8f6f0;padding:23px 20px}
-.info h4{font:normal 25px Georgia,serif;margin:0 0 15px}
-.info-row{display:flex;gap:15px;padding:11px 0;border-bottom:1px solid #e2ded4;font-size:12px;line-height:1.7}
-.info-row b{min-width:82px;font-size:11px}
-.site-footer{text-align:center;padding:23px 15px;background:var(--hero);font-size:11px;line-height:2}
-.note{font-size:11px;color:#777;line-height:1.8}
-@media(min-width:700px){
-main{padding:25px}
-.layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
-.sticky{position:sticky;top:10px}
-.cards{grid-template-columns:1fr 1fr}
-.photo{aspect-ratio:1.4}
-.hero{padding:55px 30px 42px}
-.section{padding:35px 28px}
+:root {
+  --paper: #f7f4ed;
+  --ink: #302c26;
+  --muted: #81796e;
+  --accent: #a15d3d;
+  --line: #ded8cc;
+  --white: #fffdf8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #e9e5dc;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+    "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+.topbar {
+  padding: 17px 22px;
+  background: #292720;
+  color: #fffaf0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.brand { font-size: 15px; font-weight: 700; letter-spacing: .08em; }
+.topbar small { color: #c6bfb0; font-size: 11px; }
+.workspace {
+  max-width: 1440px;
+  margin: auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+.panel {
+  background: #fffdf9;
+  padding: 22px;
+  border: 1px solid #e2ddd3;
+  border-radius: 5px;
+}
+.panel h1 { font-size: 21px; margin: 0 0 7px; }
+.panel .lead { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 0 0 23px; }
+.field { margin: 17px 0; }
+.field label {
+  display: block; font-size: 12px; font-weight: 700;
+  margin-bottom: 7px;
+}
+.field input, .field textarea, .field select {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d9d3c8;
+  border-radius: 3px;
+  background: white;
+  color: var(--ink);
+  font-size: 13px;
+}
+.field textarea { min-height: 76px; resize: vertical; line-height: 1.7; }
+.hint { color: var(--muted); font-size: 11px; line-height: 1.7; margin-top: 6px; }
+.primary {
+  width: 100%; padding: 13px;
+  border: 0; border-radius: 3px;
+  background: #302c26; color: white; font-weight: 700;
+}
+.photo-input {
+  width: 100%; font-size: 12px; margin-top: 6px;
+}
+.preview-heading {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px; margin: 0 0 12px; color: #665e52; font-size: 12px;
+}
+.preview-heading strong { color: #302c26; font-size: 14px; }
+.site {
+  background: var(--paper);
+  overflow: hidden;
+  box-shadow: 0 8px 35px #39312515;
+}
+.site-header {
+  min-height: 76px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 15px; padding: 20px 6%;
+  border-bottom: 1px solid var(--line);
+}
+.site-logo {
+  font-family: Georgia, "Yu Mincho", serif;
+  font-size: 21px; letter-spacing: .06em; font-weight: 500;
+}
+.site-nav { display: flex; gap: 22px; font-size: 10px; letter-spacing: .1em; }
+.site-nav span { white-space: nowrap; }
+.hero {
+  padding: 45px 6% 48px;
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 30px;
+  align-items: center;
+}
+.eyebrow {
+  color: var(--accent); font-size: 10px;
+  font-weight: 700; letter-spacing: .22em;
+  text-transform: uppercase;
+}
+.hero h2 {
+  font-family: Georgia, "Yu Mincho", serif;
+  font-weight: 400; font-size: clamp(32px, 4.2vw, 58px);
+  line-height: 1.25; letter-spacing: -.04em;
+  margin: 17px 0;
+}
+.hero p {
+  font-size: 12px; line-height: 2.1; color: var(--muted);
+  max-width: 330px; white-space: pre-line;
+}
+.hero-link {
+  display: inline-block; margin-top: 16px;
+  padding-bottom: 7px; border-bottom: 1px solid var(--accent);
+  font-size: 11px; letter-spacing: .08em;
+}
+.hero-image {
+  min-height: 300px;
+  background:
+    linear-gradient(135deg, #b5a38a, #6e5743 52%, #d5c4a5);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.image-label {
+  position: absolute; bottom: 14px; right: 14px;
+  color: white; font-family: Georgia, serif;
+  font-size: 11px; letter-spacing: .12em;
+  text-shadow: 0 1px 5px #0008;
+}
+.section { padding: 55px 6%; }
+.section-head {
+  display: flex; justify-content: space-between; align-items: end;
+  gap: 15px; margin-bottom: 25px;
+}
+.section-head h3 {
+  font-family: Georgia, "Yu Mincho", serif;
+  font-size: 30px; font-weight: 400; margin: 8px 0 0;
+}
+.section-head p { color: var(--muted); font-size: 11px; margin: 0; }
+.menu-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+.menu-card { background: var(--white); }
+.menu-photo {
+  height: 135px;
+  background: linear-gradient(145deg, #dfc9a7, #96775b 60%, #554332);
+  background-size: cover; background-position: center;
+}
+.menu-card:nth-child(2) .menu-photo {
+  background: linear-gradient(145deg, #d9d0b7, #b18d69 55%, #796048);
+}
+.menu-card:nth-child(3) .menu-photo {
+  background: linear-gradient(145deg, #e4d9c8, #9a775e 60%, #59483a);
+}
+.menu-copy { padding: 15px 13px 17px; }
+.menu-copy h4 { font-size: 13px; margin: 0 0 8px; }
+.menu-copy p { font-size: 10px; color: var(--muted); line-height: 1.8; margin: 0 0 12px; }
+.price { font-family: Georgia, serif; font-size: 15px; }
+.story {
+  background: #e9e2d5;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 35px; align-items: center;
+}
+.story-art {
+  min-height: 240px;
+  background: linear-gradient(145deg, #b8a58a, #77634d 55%, #d3bfa0);
+  background-size: cover; background-position: center;
+}
+.story h3 {
+  font-family: Georgia, "Yu Mincho", serif;
+  font-weight: 400; font-size: 32px; line-height: 1.5;
+  margin: 13px 0;
+}
+.story p { color: #6f6659; font-size: 12px; line-height: 2.1; white-space: pre-line; }
+.info-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.info-grid h3 {
+  font-family: Georgia, "Yu Mincho", serif;
+  font-weight: 400; font-size: 27px; margin: 10px 0 20px;
+}
+.info-row {
+  display: grid; grid-template-columns: 85px 1fr;
+  gap: 12px; padding: 13px 0;
+  border-top: 1px solid var(--line); font-size: 11px; line-height: 1.8;
+}
+.info-row span:first-child { color: var(--muted); }
+.access-note { color: var(--muted); font-size: 11px; line-height: 2; }
+.site-footer {
+  padding: 25px 6%; background: #302c26; color: #eee6d9;
+  display: flex; justify-content: space-between; gap: 15px;
+  font-size: 10px; letter-spacing: .08em;
+}
+.status {
+  padding: 11px 15px; background: #e9e2d5;
+  font-size: 11px; line-height: 1.8; color: #615647;
+}
+@media (min-width: 1000px) {
+  .site { max-width: 1050px; margin: auto; }
+}
+@media (max-width: 760px) {
+  .workspace { display: flex; flex-direction: column; padding: 12px; gap: 15px; }
+  .panel { width: 100%; padding: 18px; }
+  .preview-wrap { width: 100%; min-width: 0; }
+  .site-header { padding: 17px 5%; min-height: 64px; }
+  .site-logo { font-size: 17px; }
+  .site-nav { gap: 10px; font-size: 9px; }
+  .hero { padding: 35px 6% 30px; grid-template-columns: 1fr; gap: 22px; }
+  .hero h2 { font-size: 42px; }
+  .hero-image { min-height: 230px; }
+  .section { padding: 38px 6%; }
+  .section-head h3 { font-size: 26px; }
+  .menu-grid { gap: 8px; }
+  .menu-photo { height: 100px; }
+  .menu-copy { padding: 10px 8px 12px; }
+  .menu-copy h4 { font-size: 11px; }
+  .menu-copy p { font-size: 9px; }
+  .price { font-size: 13px; }
+  .story { grid-template-columns: 1fr; gap: 22px; }
+  .story-art { min-height: 190px; }
+  .story h3 { font-size: 28px; }
+  .info-grid { grid-template-columns: 1fr; gap: 28px; }
 }
 </style>
 </head>
 <body>
-<header>
-<h1>お店まるごとメーカー</h1>
-<p>お店の魅力を、ひとつの美しいホームページに。</p>
+<header class="topbar">
+  <div class="brand">お店まるごとメーカー</div>
+  <small>CAFE WEBSITE STUDIO / PROTOTYPE</small>
 </header>
-<main>
-<div class="layout">
-<div>
-<section class="panel">
-<h2>① お店の情報</h2>
-<label for="shop">お店の名前</label>
-<input id="shop" value="喫茶 こもれび">
-<label for="category">業種</label>
-<select id="category">
-<option>カフェ</option><option>レストラン</option><option>居酒屋</option><option>美容室</option><option>整体・サロン</option><option>雑貨店</option><option>パン屋</option>
-</select>
-<label for="desc">お店の紹介</label>
-<textarea id="desc">木漏れ日のようなやさしい時間が流れる、小さな街角のカフェです。</textarea>
-<label for="hours">営業時間</label>
-<input id="hours" value="10:00〜18:00">
-<label for="holiday">定休日</label>
-<input id="holiday" value="毎週水曜日">
-<label for="menu">メニュー（1行に1品）</label>
-<textarea id="menu">自家焙煎ブレンド　500円
-季節のタルト　650円
-本日のランチ　1,200円</textarea>
-<button class="action" onclick="generate()">プレビューを更新</button>
-</section>
-<section class="panel">
-<h2>② デザインを選ぶ</h2>
-<div class="designs">
-<button class="active" onclick="setDesign('natural',this)">🌿 ナチュラル</button>
-<button onclick="setDesign('dark',this)">◆ シック</button>
-<button onclick="setDesign('pink',this)">✿ やさしい</button>
-<button onclick="setDesign('blue',this)">◇ モダン</button>
-</div>
-<p class="note">デザインを切り替えて、お店の雰囲気に合うスタイルを探せます。</p>
-</section>
-</div>
-<section class="panel sticky">
-<h2>③ ホームページのプレビュー</h2>
-<div id="site" class="site">
-<div class="site-nav"><strong id="navShop">喫茶 こもれび</strong><span id="navCategory">CAFE · EST.</span></div>
-<div class="hero">
-<div class="kicker" id="kicker">A LITTLE MOMENT OF CALM</div>
-<h3 id="shopView">喫茶 こもれび</h3>
-<p class="hero-desc" id="descView">木漏れ日のようなやさしい時間が流れる、小さな街角のカフェです。</p>
-<span class="hero-link">WELCOME TO OUR SHOP</span>
-</div>
-<div class="photo-grid">
-<div class="photo">A MOMENT TO RELAX</div>
-<div class="photo second">MADE WITH CARE</div>
-</div>
-<div class="section">
-<div class="section-head"><small>OUR MENU</small><h4>季節を味わう</h4></div>
-<div class="cards" id="menuView"></div>
-</div>
-<div class="info">
-<h4>店舗のご案内</h4>
-<div class="info-row"><b>OPEN</b><span id="hoursView"></span></div>
-<div class="info-row"><b>CLOSED</b><span id="holidayView"></span></div>
-<div class="info-row"><b>INFORMATION</b><span id="infoCategory">カフェ</span></div>
-</div>
-<div class="site-footer"><strong id="footerShop">喫茶 こもれび</strong><br>ご来店を心よりお待ちしております。</div>
-</div>
-<p class="note">※写真部分はデザイン見本です。今は実際の写真をアップロードする機能はありません。</p>
-</section>
-</div>
+
+<main class="workspace">
+  <aside class="panel">
+    <h1>お店のサイトを作る</h1>
+    <p class="lead">お店の情報を入力すると、右側のデザインに反映されます。まずはサンプルを編集してみましょう。</p>
+
+    <div class="field">
+      <label for="shopName">お店の名前</label>
+      <input id="shopName" value="喫茶と、余白。">
+    </div>
+    <div class="field">
+      <label for="category">お店の種類</label>
+      <select id="category">
+        <option>スペシャルティコーヒー</option>
+        <option>喫茶店</option>
+        <option>カフェ・スイーツ</option>
+        <option>ベーカリーカフェ</option>
+        <option>レストラン</option>
+        <option>居酒屋</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="intro">お店の紹介</label>
+      <textarea id="intro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
+いつもの一日に、少しだけ心ほどける時間を。</textarea>
+    </div>
+    <div class="field">
+      <label for="hours">営業時間</label>
+      <input id="hours" value="10:00 — 18:00">
+    </div>
+    <div class="field">
+      <label for="holiday">定休日</label>
+      <input id="holiday" value="毎週水曜日">
+    </div>
+    <div class="field">
+      <label for="address">住所・アクセス</label>
+      <textarea id="address">大阪府〇〇市〇〇町 1-2-3
+〇〇駅から徒歩5分</textarea>
+    </div>
+    <div class="field">
+      <label for="menu1">メニュー 1</label>
+      <input id="menu1" value="ハンドドリップコーヒー">
+      <input id="price1" value="¥550" style="margin-top:7px">
+    </div>
+    <div class="field">
+      <label for="menu2">メニュー 2</label>
+      <input id="menu2" value="季節のチーズケーキ">
+      <input id="price2" value="¥620" style="margin-top:7px">
+    </div>
+    <div class="field">
+      <label for="menu3">メニュー 3</label>
+      <input id="menu3" value="カフェラテ">
+      <input id="price3" value="¥600" style="margin-top:7px">
+    </div>
+    <div class="field">
+      <label for="heroFile">メイン写真</label>
+      <input class="photo-input" id="heroFile" type="file" accept="image/*">
+      <p class="hint">選んだ写真は、この画面のプレビューに表示されます。サーバー保存機能はまだありません。</p>
+    </div>
+    <div class="field">
+      <label for="menuFile">メニュー写真</label>
+      <input class="photo-input" id="menuFile" type="file" accept="image/*" multiple>
+      <p class="hint">最大3枚まで選べます。写真は再読み込みすると消えます。</p>
+    </div>
+    <button class="primary" id="updateBtn" type="button">プレビューを更新する</button>
+    <p class="hint">この試作品はブラウザ内で動作します。入力内容や写真の保存・公開機能は未実装です。</p>
+  </aside>
+
+  <section class="preview-wrap">
+    <div class="preview-heading">
+      <strong>WEBSITE PREVIEW</strong>
+      <span>カフェ・飲食店テンプレート</span>
+    </div>
+    <div class="site" id="site">
+      <header class="site-header">
+        <div class="site-logo" id="viewName">喫茶と、余白。</div>
+        <nav class="site-nav">
+          <span>CONCEPT</span><span>MENU</span><span>ACCESS</span>
+        </nav>
+      </header>
+
+      <section class="hero">
+        <div>
+          <div class="eyebrow" id="viewCategory">SPECIALTY COFFEE</div>
+          <h2>何もしない時間も、<br>大切に。</h2>
+          <p id="viewIntro">丁寧に淹れたコーヒーと、焼きたてのお菓子。
+いつもの一日に、少しだけ心ほどける時間を。</p>
+          <span class="hero-link">OUR STORY　↗</span>
+        </div>
+        <div class="hero-image" id="heroImage">
+          <span class="image-label">A LITTLE MOMENT OF CALM</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div><div class="eyebrow">OUR MENU</div><h3>今日の、おいしいもの。</h3></div>
+          <p>季節の素材を、丁寧に。</p>
+        </div>
+        <div class="menu-grid">
+          <article class="menu-card">
+            <div class="menu-photo" id="menuPhoto1"></div>
+            <div class="menu-copy"><h4 id="viewMenu1">ハンドドリップコーヒー</h4><p>香り豊かな豆を、一杯ずつ丁寧に。</p><div class="price" id="viewPrice1">¥550</div></div>
+          </article>
+          <article class="menu-card">
+            <div class="menu-photo" id="menuPhoto2"></div>
+            <div class="menu-copy"><h4 id="viewMenu2">季節のチーズケーキ</h4><p>素材の味を楽しむ、手づくりのお菓子。</p><div class="price" id="viewPrice2">¥620</div></div>
+          </article>
+          <article class="menu-card">
+            <div class="menu-photo" id="menuPhoto3"></div>
+            <div class="menu-copy"><h4 id="viewMenu3">カフェラテ</h4><p>ミルクの甘さとエスプレッソの調和。</p><div class="price" id="viewPrice3">¥600</div></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section story">
+        <div class="story-art" id="storyImage"></div>
+        <div>
+          <div class="eyebrow">OUR PHILOSOPHY</div>
+          <h3>いつもの日常に、<br>小さな余白を。</h3>
+          <p id="storyText">忙しい毎日の途中で、ふっとひと息。
+おいしいコーヒーと落ち着く空間をご用意して、お待ちしています。</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="info-grid">
+          <div>
+            <div class="eyebrow">INFORMATION</div>
+            <h3>お店のこと</h3>
+            <div class="info-row"><span>OPEN</span><span id="viewHours">10:00 — 18:00</span></div>
+            <div class="info-row"><span>CLOSED</span><span id="viewHoliday">毎週水曜日</span></div>
+            <div class="info-row"><span>ADDRESS</span><span id="viewAddress">大阪府〇〇市〇〇町 1-2-3<br>〇〇駅から徒歩5分</span></div>
+          </div>
+          <div>
+            <div class="eyebrow">VISIT US</div>
+            <h3>お近くに来たら、ぜひ。</h3>
+            <p class="access-note">店内でゆっくり過ごすひとときを。<br>営業時間・定休日をご確認のうえお越しください。</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <span id="footerName">喫茶と、余白。</span>
+        <span>THANK YOU FOR VISITING.</span>
+      </footer>
+    </div>
+    <p class="status">これはサイト制作ツールの試作品です。写真はこのブラウザでのプレビュー用で、一般公開サイトへアップロードされるわけではありません。</p>
+  </section>
 </main>
+
 <script>
-function val(id){return document.getElementById(id).value}
-function generate(){
-const shop=val('shop')||'お店の名前';
-document.getElementById('shopView').textContent=shop;
-document.getElementById('navShop').textContent=shop;
-document.getElementById('footerShop').textContent=shop;
-document.getElementById('descView').textContent=val('desc');
-document.getElementById('hoursView').textContent=val('hours');
-document.getElementById('holidayView').textContent=val('holiday');
-document.getElementById('navCategory').textContent=val('category')+' · EST.';
-document.getElementById('infoCategory').textContent=val('category');
-const menu=document.getElementById('menuView');
-menu.replaceChildren();
-val('menu').split('\n').filter(x=>x.trim()).forEach((line,i)=>{
-const card=document.createElement('div');
-card.className='menu-card';
-const parts=line.trim().split(/\s+/);
-const price=parts.length>1&&/[¥円]/.test(parts[parts.length-1])?parts.pop():'';
-const name=parts.join(' ');
-const title=document.createElement('strong');
-title.textContent=name;
-card.appendChild(title);
-if(price){const amount=document.createElement('span');amount.textContent=price;card.appendChild(amount)}
-const description=document.createElement('p');
-description.textContent=['お店こだわりのおすすめメニューです。','素材の味を大切に、丁寧に仕上げました。','ぜひゆっくりとお楽しみください。'][i%3];
-card.appendChild(description);
-menu.appendChild(card);
+const $ = (id) => document.getElementById(id);
+
+function updatePreview() {
+  const name = $("shopName").value.trim() || "お店の名前";
+  const category = $("category").value;
+  const intro = $("intro").value.trim();
+  const hours = $("hours").value.trim() || "営業時間をご入力ください";
+  const holiday = $("holiday").value.trim() || "定休日をご入力ください";
+  const address = $("address").value.trim() || "住所をご入力ください";
+
+  $("viewName").textContent = name;
+  $("footerName").textContent = name;
+  $("viewCategory").textContent = category.toUpperCase();
+  $("viewIntro").textContent = intro;
+  $("viewHours").textContent = hours;
+  $("viewHoliday").textContent = holiday;
+  $("viewAddress").textContent = address;
+  $("storyText").textContent = intro || "お店のこだわりを紹介しましょう。";
+
+  for (let i = 1; i <= 3; i++) {
+    $("viewMenu" + i).textContent = $("menu" + i).value.trim() || "おすすめメニュー";
+    $("viewPrice" + i).textContent = $("price" + i).value.trim() || "価格は店頭にて";
+  }
+}
+
+function showImage(input, target) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (!file.type.startsWith("image/")) {
+    alert("画像ファイルを選んでください。");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    $(target).style.backgroundImage = "url('" + reader.result + "')";
+  };
+  reader.readAsDataURL(file);
+}
+
+$("updateBtn").addEventListener("click", updatePreview);
+$("heroFile").addEventListener("change", () => showImage($("heroFile"), "heroImage"));
+
+$("menuFile").addEventListener("change", () => {
+  const files = Array.from($("menuFile").files || []).slice(0, 3);
+  files.forEach((file, index) => {
+    if (!file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      $("menuPhoto" + (index + 1)).style.backgroundImage = "url('" + reader.result + "')";
+    };
+    reader.readAsDataURL(file);
+  });
 });
-}
-function setDesign(style,button){
-const site=document.getElementById('site');
-site.className='site'+(style==='natural'?'':' '+style);
-document.querySelectorAll('.designs button').forEach(b=>b.classList.remove('active'));
-button.classList.add('active');
-document.getElementById('kicker').textContent=
-style==='dark'?'A REFINED EXPERIENCE':
-style==='pink'?'A LITTLE MOMENT OF HAPPINESS':
-style==='blue'?'SIMPLE. FRESH. MODERN.':'A LITTLE MOMENT OF CALM';
-}
-generate();
+
+updatePreview();
 </script>
 </body>
 </html>
