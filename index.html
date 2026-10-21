@@ -1,583 +1,655 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f7f4ed">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>お店まるごとメーカー</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root {
-  --ink:#292820;
-  --muted:#77766e;
-  --line:#e8e4db;
-  --paper:#f7f5ef;
-  --accent:#62745b;
-  --accent-light:#e7ecdf;
-}
+:root{--ink:#29251f;--muted:#746d63;--paper:#faf7f0;--line:#e6ded1;--accent:#806548}
 *{box-sizing:border-box}
-body{
-  margin:0;background:#efeee9;color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",
-  "Yu Gothic",Meiryo,sans-serif;
-}
-button,input,textarea,select{font:inherit}
-button{cursor:pointer}
-.app-header{
-  background:#252920;color:white;padding:17px 20px;
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-}
-.brand{font-size:17px;font-weight:800;letter-spacing:.04em}
-.brand small{display:block;font-size:10px;font-weight:400;color:#c8c9be;margin-top:4px}
-.header-status{font-size:11px;color:#d5dfc9}
-main{max-width:1200px;margin:auto;padding:24px 16px 50px}
-.intro{margin-bottom:22px}
-.eyebrow{font-size:11px;letter-spacing:.16em;color:#727765;font-weight:700}
-h1{font-size:clamp(25px,5vw,36px);line-height:1.35;margin:8px 0}
-.intro p{font-size:13px;line-height:1.9;color:#696a61;margin:8px 0}
-.workspace{display:grid;grid-template-columns:minmax(280px,370px) minmax(0,1fr);gap:22px;align-items:start}
-.panel,.preview-shell{
-  background:white;border:1px solid #e4e1d8;border-radius:16px;
-  overflow:hidden;box-shadow:0 8px 28px #24251b08;
-}
-.panel-head{padding:18px 20px;border-bottom:1px solid var(--line)}
-.panel-head h2{font-size:16px;margin:0}
-.panel-head p{font-size:11px;color:var(--muted);margin:6px 0 0;line-height:1.7}
-.form-body{padding:18px 20px}
-.section-label{
-  font-size:11px;font-weight:800;letter-spacing:.08em;
-  margin:24px 0 12px;display:flex;align-items:center;gap:8px;
-}
-.section-label:first-child{margin-top:0}
-.section-label:before{content:"";width:4px;height:15px;background:#758468;border-radius:3px}
-.field{margin-bottom:15px}
-.field label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}
-.field input,.field textarea,.field select{
-  width:100%;border:1px solid #dddcd4;background:#fff;
-  border-radius:8px;padding:11px 12px;outline:none;color:#292820;
-}
-.field input:focus,.field textarea:focus,.field select:focus{
-  border-color:#74876a;box-shadow:0 0 0 3px #74876a18;
-}
-.field textarea{min-height:76px;resize:vertical;line-height:1.7}
-.field small{display:block;color:#88877f;font-size:10px;margin-top:5px;line-height:1.6}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.theme-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.theme-btn{
-  border:1px solid #deddd5;border-radius:9px;padding:10px 5px;
-  background:#fff;text-align:center;color:#393a32;
-}
-.theme-btn strong{display:block;font-size:11px;margin-top:6px}
-.theme-btn small{font-size:9px;color:#777}
-.theme-btn.active{border:2px solid #718466;background:#f3f6ef;padding:9px 4px}
-.theme-swatch{height:30px;border-radius:5px}
-.swatch-premium{background:linear-gradient(120deg,#e9dfcc 50%,#71836a 50%)}
-.swatch-retro{background:linear-gradient(120deg,#4c3024 50%,#d5b78b 50%)}
-.swatch-sweets{background:linear-gradient(120deg,#f8dce1 50%,#a56c80 50%)}
-.menu-editor{border:1px solid var(--line);padding:12px;border-radius:10px;margin-bottom:10px}
-.menu-editor strong{font-size:11px;display:block;margin-bottom:10px}
-.photo-input{font-size:11px!important;padding:8px!important}
-.primary-btn{
-  width:100%;border:0;border-radius:9px;background:#30392d;color:white;
-  padding:13px;font-weight:700;font-size:13px;
-}
-.secondary-btn{
-  border:1px solid #d9d8d0;border-radius:8px;background:white;
-  color:#44453d;padding:9px 12px;font-size:11px;
-}
-.actions{display:flex;gap:8px;margin-top:12px}
-.actions button{flex:1}
-.note{font-size:10px;color:#85847c;line-height:1.7;margin-top:12px}
-.preview-top{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:15px 18px;border-bottom:1px solid var(--line);
-}
-.preview-top strong{font-size:13px}
-.preview-top span{font-size:10px;color:#85847c}
-.preview-scroll{padding:15px;background:#eae9e3}
-.site{
-  --site-bg:#faf8f2;--site-ink:#303128;--site-muted:#77766b;
-  --site-accent:#697d5e;--site-soft:#e9eddf;--site-border:#e8e3d8;
-  background:var(--site-bg);color:var(--site-ink);
-  min-height:700px;overflow:hidden;border-radius:7px;
-  box-shadow:0 3px 14px #0000000b;
-  font-family:"Hiragino Mincho ProN","Yu Mincho",Georgia,serif;
-}
-.site.retro{
-  --site-bg:#f3e8d4;--site-ink:#3e291e;--site-muted:#7c6553;
-  --site-accent:#7a3f28;--site-soft:#e7d4b5;--site-border:#d8c3a4;
-}
-.site.sweets{
-  --site-bg:#fff8f8;--site-ink:#573b46;--site-muted:#927580;
-  --site-accent:#b86f88;--site-soft:#f9e5eb;--site-border:#f0d7df;
-}
-.site-header{
-  padding:24px 7%;display:flex;justify-content:space-between;align-items:center;
-  gap:10px;border-bottom:1px solid var(--site-border);
-}
-.site-logo{font-size:19px;font-weight:700;letter-spacing:.06em;overflow-wrap:anywhere}
-.site-tag{font-family:Arial,sans-serif;font-size:8px;letter-spacing:.16em;color:var(--site-muted);margin-top:5px}
-.site-nav{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.05em;color:var(--site-muted);white-space:nowrap}
-.hero{padding:45px 7% 38px}
-.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:center}
-.hero-kicker{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.2em;color:var(--site-accent);font-weight:bold}
-.hero h2{font-size:clamp(23px,3vw,37px);line-height:1.6;margin:14px 0;font-weight:500;overflow-wrap:anywhere}
-.hero p{font-size:11px;line-height:2.1;color:var(--site-muted);white-space:pre-line;overflow-wrap:anywhere}
-.hero-link{
-  display:inline-block;margin-top:12px;border-bottom:1px solid var(--site-accent);
-  padding-bottom:5px;font-size:10px;color:var(--site-accent);
-}
-.hero-art{
-  position:relative;min-height:220px;border-radius:3px;overflow:hidden;
-  background:linear-gradient(145deg,#d8c7aa,#eee4d2 46%,#9b9b78);
-}
-.hero-art:before{
-  content:"";position:absolute;width:64%;height:65%;left:18%;bottom:-9%;
-  border-radius:48% 48% 5% 5%;background:linear-gradient(90deg,#7d8060,#d0c39c,#8e8d68);
-  box-shadow:inset 8px 0 15px #ffffff25;
-}
-.hero-art:after{
-  content:"";position:absolute;width:36%;height:32%;left:32%;top:20%;
-  border-radius:50%;background:#f7f1df;box-shadow:inset 0 -6px 12px #c8b99c;
-}
-.art-label{
-  position:absolute;z-index:2;left:12px;bottom:12px;
-  background:#fffaf0df;padding:7px 9px;font-size:8px;letter-spacing:.08em;
-}
-.photo-loaded{background-size:cover!important;background-position:center!important}
-.photo-loaded:before,.photo-loaded:after{display:none}
-.section{padding:32px 7%;border-top:1px solid var(--site-border)}
-.section-head{text-align:center;margin-bottom:22px}
-.section-head span{font-family:Arial,sans-serif;font-size:8px;letter-spacing:.2em;color:var(--site-accent)}
-.section-head h3{font-size:22px;font-weight:500;margin:8px 0}
-.section-head p{font-family:Arial,sans-serif;font-size:10px;color:var(--site-muted);line-height:1.8}
+body{margin:0;background:#f3efe8;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",sans-serif;line-height:1.6}
+header{background:#29251f;color:white;padding:22px 18px}
+header h1{margin:0;font-size:24px}
+header p{margin:5px 0 0;color:#ddd2c4;font-size:13px}
+main{max-width:1180px;margin:22px auto;padding:0 14px}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 14px}
+h3{font-size:16px;margin:0 0 10px}
+label{display:block;font-size:13px;font-weight:700;margin:12px 0 5px}
+input,textarea,select{font:inherit;width:100%;padding:11px;border:1px solid #d9d1c5;border-radius:9px;background:#fff;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+button{font:inherit;border:0;border-radius:9px;padding:11px 15px;cursor:pointer}
+.primary{background:#29251f;color:white}
+.secondary{background:#eee7dc;color:#29251f}
+button:disabled{opacity:.5}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.small{font-size:12px;color:var(--muted)}
+.status{background:#f6f1e8;padding:11px;border-radius:9px;font-size:13px;overflow-wrap:anywhere}
+.layout{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:18px;align-items:start}
+.preview{overflow:hidden;border:1px solid var(--line);border-radius:15px;background:white}
+.preview-inner{padding:22px}
+.site-head{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:13px}
+.site-name{font-size:20px;font-weight:800}
+.site-nav{font-size:11px;color:var(--muted)}
+.hero{padding:28px 0;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+.hero h2{font-size:clamp(24px,4vw,40px);line-height:1.3;margin-bottom:12px}
+.hero p{font-size:13px;color:var(--muted);white-space:pre-wrap}
+.photo{background:#eee6da;min-height:170px;display:flex;align-items:center;justify-content:center;overflow:hidden;color:#887d6e;text-align:center;font-size:13px}
+.photo img{width:100%;height:100%;min-height:170px;object-fit:cover}
+.preview h3{margin:10px 0}
 .menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.menu-card{min-width:0}
-.menu-art{
-  min-height:105px;position:relative;overflow:hidden;
-  background:linear-gradient(145deg,#eadac1,#c5b08d);
-}
-.menu-art:before{
-  content:"";position:absolute;width:68%;aspect-ratio:1;left:16%;top:15%;
-  border-radius:50%;background:#f7f0dc;box-shadow:0 4px 12px #5a3c2022;
-}
-.menu-art:after{
-  content:"";position:absolute;width:36%;aspect-ratio:1;left:32%;top:31%;
-  border-radius:50%;background:radial-gradient(circle at 35% 30%,#9baf79,#526a45 70%);
-}
-.menu-art.art-2{background:linear-gradient(145deg,#ead1c7,#bb8979)}
-.menu-art.art-2:after{background:radial-gradient(circle at 35% 30%,#c88c99,#874d5d 70%)}
-.menu-art.art-3{background:linear-gradient(145deg,#dfd4bd,#aa9877)}
-.menu-art.art-3:after{background:radial-gradient(circle at 35% 30%,#e6c681,#b58444 70%)}
-.menu-name{font-size:12px;font-weight:700;margin:10px 0 5px;overflow-wrap:anywhere}
-.menu-price{font-family:Arial,sans-serif;font-size:11px;color:var(--site-accent)}
-.story{
-  background:var(--site-soft);padding:28px 8%;text-align:center;
-}
-.story h3{font-size:20px;font-weight:500;margin:0 0 12px}
-.story p{font-size:11px;line-height:2.1;color:var(--site-muted);white-space:pre-line}
-.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-.info-item{border-bottom:1px solid var(--site-border);padding:10px 0}
-.info-item span{display:block;font-family:Arial,sans-serif;font-size:8px;letter-spacing:.1em;color:var(--site-muted);margin-bottom:7px}
-.info-item strong{font-size:11px;font-weight:500;white-space:pre-line;overflow-wrap:anywhere}
-.site-footer{
-  padding:22px 7%;text-align:center;background:var(--site-ink);
-  color:var(--site-bg);font-size:10px;line-height:1.8;
-}
-.site.retro .hero-grid{grid-template-columns:1fr}
-.site.retro .hero-art{min-height:180px}
-.site.retro .hero h2{font-size:31px}
-.site.retro .menu-grid{grid-template-columns:1fr}
-.site.retro .menu-card{display:grid;grid-template-columns:105px 1fr;gap:12px;align-items:center}
-.site.retro .menu-art{grid-row:span 2;min-height:90px}
-.site.retro .menu-name{align-self:end;margin-bottom:0}
-.site.retro .menu-price{align-self:start}
-.site.retro .story{background:#e7d4b5;border-top:3px double #b79b76}
-.site.sweets .hero-art{border-radius:45% 45% 8px 8px;min-height:240px;background:linear-gradient(145deg,#f5d9e0,#fff0e9 50%,#d5b4b9)}
-.site.sweets .hero-art:before{background:#fff4e6;border-radius:50%;width:67%;height:65%;left:16%;bottom:-2%}
-.site.sweets .hero-art:after{background:radial-gradient(circle at 40% 35%,#f9c9d7,#d98ca7 70%);border-radius:50%;width:40%;height:35%;left:30%;top:22%}
-.site.sweets .menu-art{border-radius:48% 48% 5px 5px;background:linear-gradient(145deg,#f6dfe4,#f2c9d5)}
-.site.sweets .menu-art:before{background:#fff8ed}
-.site.sweets .menu-art:after{background:radial-gradient(circle at 35% 30%,#eab0c3,#b66e88 70%)}
-.site.sweets .story{border-radius:25px;margin:0 5% 22px}
-@media(max-width:800px){
-  main{padding:18px 12px 35px}
-  .workspace{grid-template-columns:1fr}
-  .preview-shell{min-width:0}
-  .site{min-height:0}
-  .site-header{padding:20px 6%}
-  .hero{padding:32px 6%}
-  .hero-grid{grid-template-columns:1fr}
-  .hero-art{min-height:200px}
-  .hero h2{font-size:29px}
-  .section{padding:27px 6%}
-  .menu-grid{gap:8px}
-  .menu-art{min-height:85px}
-  .menu-name{font-size:11px}
-  .site-nav{font-size:8px}
+.menu-card{border:1px solid var(--line);padding:10px;border-radius:10px;min-width:0}
+.menu-card .photo{min-height:100px}
+.menu-card .photo img{min-height:100px}
+.menu-card strong{display:block;font-size:13px;overflow-wrap:anywhere}
+.menu-price{font-size:13px;color:var(--accent)}
+.info{background:var(--paper);padding:14px;margin-top:20px;font-size:13px;white-space:pre-wrap}
+.footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+.theme-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.theme-buttons button{padding:10px 4px;font-size:12px}
+.theme-buttons button.active{background:#29251f;color:white}
+.theme-retro{--paper:#e8dbc2;--line:#b9a17d;--accent:#783e27;font-family:Georgia,"Yu Mincho",serif;background:#f3ead8}
+.theme-retro .preview-inner{background:#f3ead8}
+.theme-retro .site-head{border-bottom:3px double #9d7852}
+.theme-retro .hero{grid-template-columns:1fr}
+.theme-retro .hero h2{font-family:Georgia,serif}
+.theme-retro .menu-grid{grid-template-columns:1fr}
+.theme-retro .menu-card{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center}
+.theme-sweets{--paper:#fff0f3;--line:#f2d4dc;--accent:#c35f7e}
+.theme-sweets .preview-inner{background:#fffafb}
+.theme-sweets .hero .photo{border-radius:50% 50% 16px 16px}
+.theme-sweets .menu-card{border-radius:18px;background:#fff7f9}
+.theme-sweets .site-name{color:#b95172}
+.upload{font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+@media(max-width:760px){
+ .layout{grid-template-columns:1fr}
+ .preview-inner{padding:15px}
+ .hero{gap:12px}
+ .hero h2{font-size:25px}
+ .menu-grid{gap:7px}
+ .menu-card{padding:7px}
+ .site-nav{display:none}
 }
 @media(max-width:380px){
-  .two-col{grid-template-columns:1fr}
-  .menu-grid{grid-template-columns:1fr}
-  .menu-card{display:grid;grid-template-columns:100px 1fr;gap:10px;align-items:center}
-  .menu-art{grid-row:span 2}
-  .menu-name{align-self:end;margin-bottom:0}
-  .menu-price{align-self:start}
+ .hero{grid-template-columns:1fr}
+ .hero .photo{min-height:150px}
+ .menu-grid{grid-template-columns:1fr}
+ .theme-retro .menu-card{grid-template-columns:100px 1fr}
 }
 </style>
 </head>
 <body>
-<header class="app-header">
-  <div class="brand">お店まるごとメーカー<small>YOUR SHOP, YOUR STORY.</small></div>
-  <div class="header-status">● プロトタイプ</div>
+<header>
+  <h1>お店まるごとメーカー</h1>
+  <p>小さなお店のホームページを、かんたんに作ろう。</p>
 </header>
 
 <main>
-  <div class="intro">
-    <div class="eyebrow">WEBSITE STUDIO</div>
-    <h1>お店の魅力を、<br>ホームページに。</h1>
-    <p>お店の情報を入力してデザインを選ぶだけ。<br>右側のプレビューで仕上がりを確認しよう。</p>
+<section class="panel">
+  <h2>アカウント・クラウド保存</h2>
+  <div id="authStatus" class="status">メールアドレスで登録またはログインしてください。</div>
+  <label for="authEmail">メールアドレス</label>
+  <input id="authEmail" type="email" autocomplete="email" placeholder="メールアドレス">
+  <label for="authPassword">パスワード（6文字以上）</label>
+  <input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="パスワード">
+  <div class="actions">
+    <button class="primary" id="signUpBtn" type="button">新規登録</button>
+    <button class="secondary" id="signInBtn" type="button">ログイン</button>
+    <button class="secondary" id="signOutBtn" type="button">ログアウト</button>
+  </div>
+  <div class="actions">
+    <button class="primary" id="cloudSaveBtn" type="button">お店情報をクラウド保存</button>
+    <button class="secondary" id="cloudLoadBtn" type="button">保存データを読み込む</button>
+  </div>
+  <p class="small">クラウド保存にはログインが必要です。初めての方は新規登録後、メール確認が必要な場合があります。</p>
+</section>
+
+<div class="layout">
+<section class="panel">
+  <h2>お店の情報を編集</h2>
+
+  <h3>デザインを選ぶ</h3>
+  <div class="theme-buttons">
+    <button type="button" class="secondary active" data-theme="premium">プレミアム</button>
+    <button type="button" class="secondary" data-theme="retro">レトロ喫茶</button>
+    <button type="button" class="secondary" data-theme="sweets">スイーツ</button>
   </div>
 
-  <div class="workspace">
-    <section class="panel">
-      <div class="panel-head">
-        <h2>ホームページを編集</h2>
-        <p>入力した文字はこのブラウザに自動保存されます。</p>
-      </div>
-      <div class="form-body">
-        <div class="section-label">01　デザインを選ぶ</div>
-        <div class="theme-list">
-          <button class="theme-btn active" data-theme="premium" type="button">
-            <div class="theme-swatch swatch-premium"></div>
-            <strong>上質カフェ</strong><small>シンプル・上品</small>
-          </button>
-          <button class="theme-btn" data-theme="retro" type="button">
-            <div class="theme-swatch swatch-retro"></div>
-            <strong>レトロ喫茶</strong><small>懐かしい・落ち着く</small>
-          </button>
-          <button class="theme-btn" data-theme="sweets" type="button">
-            <div class="theme-swatch swatch-sweets"></div>
-            <strong>スイーツ</strong><small>かわいい・華やか</small>
-          </button>
-        </div>
+  <label for="shopName">お店の名前</label>
+  <input id="shopName" data-save value="森のカフェ">
 
-        <div class="section-label">02　お店の基本情報</div>
-        <div class="field">
-          <label for="shopName">お店の名前</label>
-          <input id="shopName" data-save value="木漏れ日カフェ" maxlength="60">
-        </div>
-        <div class="field">
-          <label for="category">お店の種類</label>
-          <select id="category" data-save>
-            <option>カフェ</option><option>喫茶店</option><option>ケーキ・スイーツ</option>
-            <option>レストラン</option><option>居酒屋</option><option>パン屋</option>
-            <option>美容室</option><option>その他</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="intro">お店の紹介</label>
-          <textarea id="intro" data-save maxlength="400">季節の素材を使った手作りスイーツと、香り豊かなコーヒー。ほっとひと息つける時間をお届けします。</textarea>
-        </div>
-        <div class="two-col">
-          <div class="field">
-            <label for="hours">営業時間</label>
-            <input id="hours" data-save value="10:00〜18:00" maxlength="80">
-          </div>
-          <div class="field">
-            <label for="holiday">定休日</label>
-            <input id="holiday" data-save value="毎週水曜日" maxlength="80">
-          </div>
-        </div>
-        <div class="field">
-          <label for="address">住所</label>
-          <input id="address" data-save value="大阪府〇〇市〇〇町1-2-3" maxlength="150">
-        </div>
+  <label for="category">お店のジャンル</label>
+  <select id="category" data-save>
+    <option>カフェ</option>
+    <option>レストラン</option>
+    <option>パン屋</option>
+    <option>ケーキ屋</option>
+    <option>居酒屋</option>
+    <option>美容室</option>
+    <option>その他</option>
+  </select>
 
-        <div class="section-label">03　メニューを編集</div>
-        <div class="menu-editor">
-          <strong>MENU 01</strong>
-          <div class="field"><label for="menu1">メニュー名</label><input id="menu1" data-save value="季節のケーキ" maxlength="80"></div>
-          <div class="field"><label for="price1">価格</label><input id="price1" data-save value="650円" maxlength="30"></div>
-          <div class="field"><label for="photo1">メニュー写真（任意）</label><input id="photo1" class="photo-input" type="file" accept="image/*"></div>
-        </div>
-        <div class="menu-editor">
-          <strong>MENU 02</strong>
-          <div class="field"><label for="menu2">メニュー名</label><input id="menu2" data-save value="自家焙煎コーヒー" maxlength="80"></div>
-          <div class="field"><label for="price2">価格</label><input id="price2" data-save value="500円" maxlength="30"></div>
-          <div class="field"><label for="photo2">メニュー写真（任意）</label><input id="photo2" class="photo-input" type="file" accept="image/*"></div>
-        </div>
-        <div class="menu-editor">
-          <strong>MENU 03</strong>
-          <div class="field"><label for="menu3">メニュー名</label><input id="menu3" data-save value="季節のソーダ" maxlength="80"></div>
-          <div class="field"><label for="price3">価格</label><input id="price3" data-save value="580円" maxlength="30"></div>
-          <div class="field"><label for="photo3">メニュー写真（任意）</label><input id="photo3" class="photo-input" type="file" accept="image/*"></div>
-        </div>
+  <label for="description">お店の紹介</label>
+  <textarea id="description" data-save>ゆったりとした時間を過ごせる、小さな街のカフェです。こだわりのコーヒーと手作りスイーツをご用意しています。</textarea>
 
-        <div class="section-label">04　お店のメイン写真</div>
-        <div class="field">
-          <label for="heroPhoto">トップに表示する写真</label>
-          <input id="heroPhoto" class="photo-input" type="file" accept="image/*">
-          <small>選んだ写真はこの画面のプレビューに表示されます。サーバーへのアップロードはまだできません。</small>
-        </div>
+  <label for="openingHours">営業時間</label>
+  <input id="openingHours" data-save value="10:00〜18:00">
 
-        <button id="updateBtn" class="primary-btn" type="button">プレビューを更新する</button>
-        <div class="actions">
-          <button id="resetBtn" class="secondary-btn" type="button">初期状態に戻す</button>
-          <button id="exportBtn" class="secondary-btn" type="button">入力内容を保存用に書き出す</button>
-        </div>
-        <p class="note">※ 自動保存はこの端末・ブラウザ内のみです。公開サイトへの反映、複数端末での共有、写真のサーバー保存はまだ対応していません。</p>
-      </div>
-    </section>
+  <label for="holiday">定休日</label>
+  <input id="holiday" data-save value="毎週水曜日">
 
-    <section class="preview-shell">
-      <div class="preview-top">
-        <div><strong>サイトプレビュー</strong><br><span>PREVIEW / お客さんからの見え方</span></div>
-        <span id="savedStatus">自動保存：準備中</span>
-      </div>
-      <div class="preview-scroll">
-        <article class="site" id="site">
-          <header class="site-header">
-            <div><div class="site-logo" id="viewName">木漏れ日カフェ</div><div class="site-tag" id="viewCategory">CAFE & SWEETS</div></div>
-            <div class="site-nav">MENU　　ABOUT　　ACCESS</div>
-          </header>
+  <label for="address">住所</label>
+  <input id="address" data-save value="大阪府○○市○○町">
 
-          <section class="hero">
-            <div class="hero-grid">
-              <div>
-                <div class="hero-kicker" id="heroKicker">A LITTLE MOMENT OF PEACE</div>
-                <h2 id="heroTitle">日常に、<br>小さなごほうびを。</h2>
-                <p id="viewIntro">季節の素材を使った手作りスイーツと、香り豊かなコーヒー。ほっとひと息つける時間をお届けします。</p>
-                <span class="hero-link" id="heroLink">お店のおすすめを見る　↗</span>
-              </div>
-              <div class="hero-art" id="heroArt"><span class="art-label">A PLACE TO SLOW DOWN</span></div>
-            </div>
-          </section>
+  <hr>
+  <h3>メイン写真</h3>
+  <label for="mainPhoto">写真を選ぶ</label>
+  <input class="upload" id="mainPhoto" type="file" accept="image/*">
 
-          <section class="section">
-            <div class="section-head">
-              <span>OUR MENU</span>
-              <h3 id="menuHeading">おすすめメニュー</h3>
-              <p id="menuDescription">素材と季節を大切に、一つひとつ丁寧に。</p>
-            </div>
-            <div class="menu-grid">
-              <div class="menu-card">
-                <div class="menu-art art-1" id="menuArt1"></div>
-                <div class="menu-name" id="viewMenu1">季節のケーキ</div>
-                <div class="menu-price" id="viewPrice1">650円</div>
-              </div>
-              <div class="menu-card">
-                <div class="menu-art art-2" id="menuArt2"></div>
-                <div class="menu-name" id="viewMenu2">自家焙煎コーヒー</div>
-                <div class="menu-price" id="viewPrice2">500円</div>
-              </div>
-              <div class="menu-card">
-                <div class="menu-art art-3" id="menuArt3"></div>
-                <div class="menu-name" id="viewMenu3">季節のソーダ</div>
-                <div class="menu-price" id="viewPrice3">580円</div>
-              </div>
-            </div>
-          </section>
+  <hr>
+  <h3>メニュー</h3>
+  <p class="small">価格は数字で入力できます。例：650</p>
 
-          <section class="story">
-            <h3 id="storyHeading">この街で、ほっとひと息。</h3>
-            <p id="storyText">忙しい毎日のなかに、心がゆるむひとときを。<br>皆さまのお越しをお待ちしております。</p>
-          </section>
+  <label for="menu1">メニュー1</label>
+  <input id="menu1" data-save value="自家焙煎コーヒー">
+  <label for="price1">価格（円）</label>
+  <input id="price1" data-save inputmode="numeric" value="550">
+  <label for="photo1">メニュー写真1</label>
+  <input class="upload" id="photo1" type="file" accept="image/*">
 
-          <section class="section">
-            <div class="section-head">
-              <span>INFORMATION</span>
-              <h3>店舗情報</h3>
-            </div>
-            <div class="info-grid">
-              <div class="info-item"><span>OPENING HOURS</span><strong id="viewHours">10:00〜18:00</strong></div>
-              <div class="info-item"><span>CLOSED</span><strong id="viewHoliday">毎週水曜日</strong></div>
-              <div class="info-item"><span>ADDRESS</span><strong id="viewAddress">大阪府〇〇市〇〇町1-2-3</strong></div>
-              <div class="info-item"><span>WELCOME</span><strong>お気軽にお立ち寄りください</strong></div>
-            </div>
-          </section>
-          <footer class="site-footer"><strong id="footerName">木漏れ日カフェ</strong><br>皆さまのご来店をお待ちしております。</footer>
-        </article>
-      </div>
-    </section>
+  <label for="menu2">メニュー2</label>
+  <input id="menu2" data-save value="季節のケーキ">
+  <label for="price2">価格（円）</label>
+  <input id="price2" data-save inputmode="numeric" value="650">
+  <label for="photo2">メニュー写真2</label>
+  <input class="upload" id="photo2" type="file" accept="image/*">
+
+  <label for="menu3">メニュー3</label>
+  <input id="menu3" data-save value="カフェラテ">
+  <label for="price3">価格（円）</label>
+  <input id="price3" data-save inputmode="numeric" value="600">
+  <label for="photo3">メニュー写真3</label>
+  <input class="upload" id="photo3" type="file" accept="image/*">
+
+  <div class="actions">
+    <button id="updateBtn" class="primary" type="button">プレビューを更新</button>
+    <button id="resetBtn" class="secondary" type="button">初期状態に戻す</button>
+    <button id="exportBtn" class="secondary" type="button">設定をJSON保存</button>
   </div>
+  <p id="localStatus" class="small">入力内容はこのブラウザに自動保存されます。</p>
+</section>
+
+<section class="preview" id="sitePreview">
+  <div class="preview-inner">
+    <div class="site-head">
+      <div class="site-name" id="outName">森のカフェ</div>
+      <div class="site-nav">CONCEPT　MENU　ACCESS</div>
+    </div>
+
+    <div class="hero">
+      <div>
+        <p id="outCategory">CAFE</p>
+        <h2 id="outHeadline">いつもの毎日に、ほっとするひとときを。</h2>
+        <p id="outDescription"></p>
+      </div>
+      <div class="photo" id="mainPhotoBox">メイン写真を選ぶとここに表示されます</div>
+    </div>
+
+    <h3>おすすめメニュー</h3>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="photo" id="photoBox1">メニュー写真</div>
+        <strong id="outMenu1"></strong>
+        <div class="menu-price" id="outPrice1"></div>
+      </div>
+      <div class="menu-card">
+        <div class="photo" id="photoBox2">メニュー写真</div>
+        <strong id="outMenu2"></strong>
+        <div class="menu-price" id="outPrice2"></div>
+      </div>
+      <div class="menu-card">
+        <div class="photo" id="photoBox3">メニュー写真</div>
+        <strong id="outMenu3"></strong>
+        <div class="menu-price" id="outPrice3"></div>
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>営業時間</strong>
+      <div id="outHours"></div>
+      <strong>定休日</strong>
+      <div id="outHoliday"></div>
+      <strong>住所</strong>
+      <div id="outAddress"></div>
+    </div>
+    <div class="footer" id="outFooter">ご来店を心よりお待ちしております。</div>
+  </div>
+</section>
+</div>
 </main>
 
 <script>
 (function(){
-  const KEY = "omiseMakerPrototypeV2";
-  const defaults = {};
-  document.querySelectorAll("[data-save]").forEach(el => defaults[el.id] = el.value);
-  let currentTheme = "premium";
-  const imageUrls = {};
+"use strict";
 
-  const themeCopy = {
-    premium:{
-      kicker:"A LITTLE MOMENT OF PEACE",
-      title:"日常に、<br>小さなごほうびを。",
-      menu:"おすすめメニュー",
-      menuDesc:"素材と季節を大切に、一つひとつ丁寧に。",
-      story:"この街で、ほっとひと息。",
-      storyText:"忙しい毎日のなかに、心がゆるむひとときを。<br>皆さまのお越しをお待ちしております。",
-      link:"お店のおすすめを見る　↗"
-    },
-    retro:{
-      kicker:"EST. WITH LOVE & COFFEE",
-      title:"いつもの席で、<br>いつもの一杯を。",
-      menu:"喫茶店の定番",
-      menuDesc:"昔ながらの味わいを、ゆっくりと。",
-      story:"変わらない味、変わらない居心地。",
-      storyText:"扉を開ければ、懐かしい香りと落ち着く空間。<br>今日もいつもの場所でお待ちしています。",
-      link:"定番メニューはこちら　↗"
-    },
-    sweets:{
-      kicker:"SWEET DAYS, SWEET MOMENTS",
-      title:"ときめく甘さを、<br>あなたに。",
-      menu:"とっておきのスイーツ",
-      menuDesc:"見た目も味わいも、心が弾むひと皿。",
-      story:"甘いひとくちから、幸せな一日を。",
-      storyText:"大切な人と過ごす時間にも、自分へのごほうびにも。<br>とっておきの甘さをご用意しています。",
-      link:"人気のスイーツを見る　↗"
-    }
+/* Supabase接続設定：ブラウザ公開用のpublishable keyを使用 */
+const SUPABASE_URL = "https://rwheukborjdnqokvbdzw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_2_MhwR9EukcNdrfDjrjqvQ_xP12Jh30";
+const LOCAL_KEY = "omiseMakerPrototypeV3";
+
+const $ = id => document.getElementById(id);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentTheme = "premium";
+let currentUser = null;
+let currentShop = null;
+let photoUrls = {mainPhoto:null,photo1:null,photo2:null,photo3:null};
+let busy = false;
+
+const themeCopy = {
+  premium: {
+    headline:"いつもの毎日に、ほっとするひとときを。",
+    footer:"ご来店を心よりお待ちしております。"
+  },
+  retro: {
+    headline:"懐かしい香りに包まれる、街の喫茶店。",
+    footer:"ゆっくりとした時間をお楽しみください。"
+  },
+  sweets: {
+    headline:"甘いひとときで、心に小さなごほうびを。",
+    footer:"今日のおやつに、とっておきのひと皿を。"
+  }
+};
+
+function value(id){
+  return $(id).value.trim();
+}
+
+function setStatus(message){
+  $("authStatus").textContent = message;
+}
+
+function setBusy(state){
+  busy = state;
+  ["signUpBtn","signInBtn","signOutBtn","cloudSaveBtn","cloudLoadBtn"].forEach(id=>{
+    $(id).disabled = state;
+  });
+}
+
+function getFormData(){
+  return {
+    name:value("shopName") || "新しいお店",
+    category:value("category") || "カフェ",
+    description:value("description"),
+    opening_hours:value("openingHours"),
+    holiday:value("holiday"),
+    address:value("address"),
+    theme:currentTheme
   };
+}
 
-  function val(id){ return document.getElementById(id).value.trim(); }
-  function setText(id,text){ document.getElementById(id).textContent = text || ""; }
+function getMenus(){
+  return [1,2,3].map((n)=>({
+    name:value("menu"+n),
+    price:Math.max(0,parseInt(value("price"+n).replace(/[^\d]/g,""),10)||0),
+    sort_order:n
+  }));
+}
 
-  function save(){
-    try{
-      const data = {theme:currentTheme,fields:{}};
-      document.querySelectorAll("[data-save]").forEach(el=>data.fields[el.id]=el.value);
-      localStorage.setItem(KEY,JSON.stringify(data));
-      setText("savedStatus","自動保存：保存済み");
-    }catch(e){
-      setText("savedStatus","自動保存できません");
-    }
+function saveLocal(){
+  try{
+    const data = {
+      form:getFormData(),
+      menus:getMenus(),
+      theme:currentTheme
+    };
+    localStorage.setItem(LOCAL_KEY,JSON.stringify(data));
+    $("localStatus").textContent = "入力内容をこのブラウザに自動保存しました。";
+  }catch(e){
+    $("localStatus").textContent = "ブラウザ内保存ができませんでした。";
   }
+}
 
-  function render(){
-    setText("viewName",val("shopName") || "あなたのお店");
-    setText("footerName",val("shopName") || "あなたのお店");
-    setText("viewCategory",(val("category") || "CAFE").toUpperCase());
-    setText("viewIntro",val("intro"));
-    setText("viewHours",val("hours") || "お問い合わせください");
-    setText("viewHoliday",val("holiday") || "不定休");
-    setText("viewAddress",val("address") || "住所を入力してください");
+function render(){
+  const data = getFormData();
+  $("outName").textContent = data.name;
+  $("outCategory").textContent = data.category.toUpperCase();
+  $("outDescription").textContent = data.description;
+  $("outHeadline").textContent = themeCopy[currentTheme].headline;
+  $("outFooter").textContent = themeCopy[currentTheme].footer;
+  $("outHours").textContent = data.opening_hours;
+  $("outHoliday").textContent = data.holiday;
+  $("outAddress").textContent = data.address;
 
-    for(let i=1;i<=3;i++){
-      setText("viewMenu"+i,val("menu"+i) || "メニュー名");
-      setText("viewPrice"+i,val("price"+i) || "価格はお問い合わせください");
-    }
-
-    const copy=themeCopy[currentTheme];
-    document.getElementById("heroTitle").innerHTML=copy.title;
-    setText("heroKicker",copy.kicker);
-    setText("menuHeading",copy.menu);
-    setText("menuDescription",copy.menuDesc);
-    setText("storyHeading",copy.story);
-    document.getElementById("storyText").innerHTML=copy.storyText;
-    setText("heroLink",copy.link);
-
-    document.querySelectorAll(".theme-btn").forEach(btn=>{
-      btn.classList.toggle("active",btn.dataset.theme===currentTheme);
-    });
-    const site=document.getElementById("site");
-    site.classList.remove("retro","sweets");
-    if(currentTheme!=="premium")site.classList.add(currentTheme);
-
-    save();
-  }
-
-  function restore(){
-    try{
-      const raw=localStorage.getItem(KEY);
-      if(!raw)return;
-      const data=JSON.parse(raw);
-      if(data.fields){
-        Object.keys(defaults).forEach(id=>{
-          if(typeof data.fields[id]==="string")document.getElementById(id).value=data.fields[id];
-        });
-      }
-      if(["premium","retro","sweets"].includes(data.theme))currentTheme=data.theme;
-    }catch(e){}
-  }
-
-  document.querySelectorAll("[data-save]").forEach(el=>{
-    el.addEventListener("input",render);
-    el.addEventListener("change",render);
+  [1,2,3].forEach(n=>{
+    $("outMenu"+n).textContent = value("menu"+n);
+    const price = parseInt(value("price"+n).replace(/[^\d]/g,""),10)||0;
+    $("outPrice"+n).textContent = price ? "¥"+price.toLocaleString("ja-JP") : "";
   });
 
-  document.querySelectorAll(".theme-btn").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      currentTheme=btn.dataset.theme;
-      render();
-    });
-  });
+  $("sitePreview").classList.remove("theme-retro","theme-sweets");
+  if(currentTheme==="retro") $("sitePreview").classList.add("theme-retro");
+  if(currentTheme==="sweets") $("sitePreview").classList.add("theme-sweets");
 
-  document.getElementById("updateBtn").addEventListener("click",()=>{
-    render();
-    setText("savedStatus","プレビュー更新済み");
-    document.getElementById("site").scrollIntoView({behavior:"smooth",block:"start"});
+  document.querySelectorAll("[data-theme]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.theme===currentTheme);
   });
+  saveLocal();
+}
 
-  function previewImage(inputId,targetId){
-    const input=document.getElementById(inputId);
-    input.addEventListener("change",()=>{
-      const file=input.files && input.files[0];
-      if(!file)return;
-      if(!file.type.startsWith("image/")){
-        alert("画像ファイルを選んでください。");
-        return;
-      }
-      if(file.size>5*1024*1024){
-        alert("画像は5MB以下のファイルを選んでください。");
-        input.value="";
-        return;
-      }
-      const reader=new FileReader();
-      reader.onload=()=>{
-        imageUrls[targetId]=reader.result;
-        const target=document.getElementById(targetId);
-        target.style.backgroundImage="url('"+reader.result+"')";
-        target.classList.add("photo-loaded");
+function setPhoto(boxId,url,placeholder){
+  const box = $(boxId);
+  box.replaceChildren();
+  if(url){
+    const img = document.createElement("img");
+    img.src = url;
+    img.alt = "選択した写真";
+    box.appendChild(img);
+  }else{
+    box.textContent = placeholder;
+  }
+}
+
+function renderPhotos(){
+  setPhoto("mainPhotoBox",photoUrls.mainPhoto,"メイン写真を選ぶとここに表示されます");
+  [1,2,3].forEach(n=>setPhoto("photoBox"+n,photoUrls["photo"+n],"メニュー写真"));
+}
+
+function loadLocal(){
+  try{
+    const raw = localStorage.getItem(LOCAL_KEY);
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data.form){
+      const mapping = {
+        name:"shopName",
+        category:"category",
+        description:"description",
+        opening_hours:"openingHours",
+        holiday:"holiday",
+        address:"address"
       };
-      reader.readAsDataURL(file);
-    });
+      Object.keys(mapping).forEach(key=>{
+        if(data.form[key]!==undefined) $(mapping[key]).value=data.form[key];
+      });
+    }
+    if(data.menus){
+      data.menus.slice(0,3).forEach((m,i)=>{
+        const n=i+1;
+        $("menu"+n).value=m.name||"";
+        $("price"+n).value=m.price||"";
+      });
+    }
+    if(["premium","retro","sweets"].includes(data.theme)) currentTheme=data.theme;
+  }catch(e){}
+}
+
+async function loadShopFromCloud(){
+  if(!currentUser){
+    setStatus("先にログインしてください。");
+    return;
   }
 
-  previewImage("heroPhoto","heroArt");
-  previewImage("photo1","menuArt1");
-  previewImage("photo2","menuArt2");
-  previewImage("photo3","menuArt3");
+  setStatus("クラウドの店舗情報を読み込み中…");
 
-  document.getElementById("resetBtn").addEventListener("click",()=>{
-    if(!confirm("入力内容を初期状態に戻す？"))return;
-    Object.keys(defaults).forEach(id=>document.getElementById(id).value=defaults[id]);
-    Object.keys(imageUrls).forEach(id=>{
-      const el=document.getElementById(id);
-      el.style.backgroundImage="";
-      el.classList.remove("photo-loaded");
-    });
-    document.querySelectorAll('input[type="file"]').forEach(el=>el.value="");
-    Object.keys(imageUrls).forEach(id=>delete imageUrls[id]);
-    currentTheme="premium";
+  const {data:shop,error} = await db
+    .from("shops")
+    .select("*")
+    .eq("owner_id",currentUser.id)
+    .order("created_at",{ascending:true})
+    .limit(1)
+    .maybeSingle();
+
+  if(error) throw error;
+
+  if(!shop){
+    currentShop=null;
+    setStatus("ログイン済みです。お店の情報を入力して「お店情報をクラウド保存」を押してください。");
+    return;
+  }
+
+  currentShop=shop;
+  $("shopName").value=shop.name||"";
+  $("category").value=shop.category||"カフェ";
+  $("description").value=shop.description||"";
+  $("openingHours").value=shop.opening_hours||"";
+  $("holiday").value=shop.holiday||"";
+  $("address").value=shop.address||"";
+  currentTheme=["premium","retro","sweets"].includes(shop.theme)?shop.theme:"premium";
+
+  const {data:menus,error:menuError} = await db
+    .from("shop_menus")
+    .select("*")
+    .eq("shop_id",shop.id)
+    .order("sort_order",{ascending:true});
+
+  if(menuError) throw menuError;
+
+  [1,2,3].forEach(n=>{
+    $("menu"+n).value="";
+    $("price"+n).value="";
+  });
+
+  (menus||[]).slice(0,3).forEach((menu,i)=>{
+    const n=i+1;
+    $("menu"+n).value=menu.name||"";
+    $("price"+n).value=menu.price||"";
+  });
+
+  render();
+  setStatus("クラウドから読み込みました： "+(currentUser.email||"ログイン中"));
+}
+
+async function saveShopToCloud(){
+  if(!currentUser){
+    setStatus("保存するには先にログインしてください。");
+    return;
+  }
+
+  setStatus("店舗情報をクラウドに保存中…");
+  const shopData = getFormData();
+  shopData.owner_id = currentUser.id;
+
+  let shopId;
+
+  if(currentShop && currentShop.id){
+    const {data,error} = await db
+      .from("shops")
+      .update(shopData)
+      .eq("id",currentShop.id)
+      .select()
+      .single();
+
+    if(error) throw error;
+    currentShop=data;
+    shopId=data.id;
+  }else{
+    const {data,error} = await db
+      .from("shops")
+      .insert(shopData)
+      .select()
+      .single();
+
+    if(error) throw error;
+    currentShop=data;
+    shopId=data.id;
+  }
+
+  const {error:deleteError} = await db
+    .from("shop_menus")
+    .delete()
+    .eq("shop_id",shopId);
+
+  if(deleteError) throw deleteError;
+
+  const menus = getMenus().map(menu=>({
+    shop_id:shopId,
+    name:menu.name||"",
+    price:menu.price,
+    sort_order:menu.sort_order
+  }));
+
+  const {error:insertError} = await db
+    .from("shop_menus")
+    .insert(menus);
+
+  if(insertError) throw insertError;
+
+  setStatus("保存成功！このアカウントのお店情報をクラウドに保存しました。");
+}
+
+async function runAction(action){
+  if(busy) return;
+  setBusy(true);
+  try{
+    await action();
+  }catch(error){
+    console.error(error);
+    setStatus("エラー："+(error.message||"処理に失敗しました")+"。設定とログイン状態を確認してください。");
+  }finally{
+    setBusy(false);
+  }
+}
+
+$("signUpBtn").addEventListener("click",()=>runAction(async()=>{
+  const email=value("authEmail");
+  const password=$("authPassword").value;
+  if(!email||!password) throw new Error("メールアドレスとパスワードを入力してください");
+  if(password.length<6) throw new Error("パスワードは6文字以上にしてください");
+
+  const {data,error}=await db.auth.signUp({
+    email,password,
+    options:{
+      emailRedirectTo:window.location.origin+window.location.pathname
+    }
+  });
+  if(error) throw error;
+
+  if(data.session && data.user){
+    currentUser=data.user;
+    await loadShopFromCloud();
+  }else{
+    setStatus("登録リクエストを受け付けました。メール確認が必要な場合は、届いたメールのリンクを開いてからログインしてください。");
+  }
+}));
+
+$("signInBtn").addEventListener("click",()=>runAction(async()=>{
+  const email=value("authEmail");
+  const password=$("authPassword").value;
+  if(!email||!password) throw new Error("メールアドレスとパスワードを入力してください");
+
+  const {data,error}=await db.auth.signInWithPassword({email,password});
+  if(error) throw error;
+  currentUser=data.user;
+  await loadShopFromCloud();
+}));
+
+$("signOutBtn").addEventListener("click",()=>runAction(async()=>{
+  const {error}=await db.auth.signOut();
+  if(error) throw error;
+  currentUser=null;
+  currentShop=null;
+  setStatus("ログアウトしました。");
+}));
+
+$("cloudSaveBtn").addEventListener("click",()=>runAction(saveShopToCloud));
+$("cloudLoadBtn").addEventListener("click",()=>runAction(loadShopFromCloud));
+
+db.auth.onAuthStateChange((event,session)=>{
+  currentUser=session?.user||null;
+  if(!currentUser){
+    currentShop=null;
+    setStatus("未ログインです。メールアドレスで登録またはログインしてください。");
+  }else{
+    setStatus("ログイン済み："+(currentUser.email||""));
+  }
+});
+
+document.querySelectorAll("[data-save]").forEach(el=>{
+  el.addEventListener("input",render);
+  el.addEventListener("change",render);
+});
+
+document.querySelectorAll("[data-theme]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    currentTheme=btn.dataset.theme;
     render();
   });
+});
 
-  document.getElementById("exportBtn").addEventListener("click",()=>{
-    const data={theme:currentTheme,fields:{}};
-    document.querySelectorAll("[data-save]").forEach(el=>data.fields[el.id]=el.value);
-    const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement("a");
-    a.href=url;
-    a.download="omise-maker-data.json";
-    a.click();
-    URL.revokeObjectURL(url);
+$("updateBtn").addEventListener("click",render);
+
+function attachPhotoInput(inputId){
+  $(inputId).addEventListener("change",event=>{
+    const file=event.target.files&&event.target.files[0];
+    if(!file) return;
+    if(!file.type.startsWith("image/")){
+      alert("画像ファイルを選んでください。");
+      return;
+    }
+    if(file.size>8*1024*1024){
+      alert("写真は8MB以下のファイルを選んでください。");
+      return;
+    }
+    const reader=new FileReader();
+    reader.onload=()=>{
+      photoUrls[inputId]=reader.result;
+      renderPhotos();
+    };
+    reader.readAsDataURL(file);
   });
+}
 
-  restore();
+["mainPhoto","photo1","photo2","photo3"].forEach(attachPhotoInput);
+
+$("resetBtn").addEventListener("click",()=>{
+  if(!confirm("編集内容を初期状態に戻しますか？")) return;
+  $("shopName").value="森のカフェ";
+  $("category").value="カフェ";
+  $("description").value="ゆったりとした時間を過ごせる、小さな街のカフェです。こだわりのコーヒーと手作りスイーツをご用意しています。";
+  $("openingHours").value="10:00〜18:00";
+  $("holiday").value="毎週水曜日";
+  $("address").value="大阪府○○市○○町";
+  $("menu1").value="自家焙煎コーヒー";$("price1").value="550";
+  $("menu2").value="季節のケーキ";$("price2").value="650";
+  $("menu3").value="カフェラテ";$("price3").value="600";
+  currentTheme="premium";
+  photoUrls={mainPhoto:null,photo1:null,photo2:null,photo3:null};
+  ["mainPhoto","photo1","photo2","photo3"].forEach(id=>$(id).value="");
+  renderPhotos();
   render();
+});
+
+$("exportBtn").addEventListener("click",()=>{
+  const data={shop:getFormData(),menus:getMenus(),theme:currentTheme};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="omise-maker-settings.json";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+loadLocal();
+render();
+renderPhotos();
+
+(async()=>{
+  try{
+    const {data,error}=await db.auth.getSession();
+    if(error) throw error;
+    if(data.session?.user){
+      currentUser=data.session.user;
+      await loadShopFromCloud();
+    }
+  }catch(error){
+    console.error(error);
+    setStatus("ログイン状態を確認できませんでした。ページを再読み込みしてください。");
+  }
+})();
 })();
 </script>
 </body>
